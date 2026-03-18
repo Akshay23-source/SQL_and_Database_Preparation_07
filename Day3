@@ -1,0 +1,200 @@
+Day 3 – Relationships & Clean Data (18 March 2026)
+
+Today we unlock how real databases work in companies 🔥
+
+🔥 Today’s Concepts:
+
+1️⃣ Foreign Key (How tables connect)
+2️⃣ Normalization (How to avoid messy data)
+
+1️⃣ Foreign Key (Connecting Tables)
+Simple Idea
+
+A Foreign Key is a column that links one table to another.
+
+👉 It creates a relationship between tables
+
+Mental Model 🧠
+
+Think:
+
+Primary Key → Identity of a table
+Foreign Key → Reference to another table
+Real-World Example
+Table 1: Students
+id (PK)	name
+1	Akshay
+2	Rahul
+Table 2: Courses
+course_id (PK)	course
+101	CSE
+102	ECE
+Table 3: Enrollments
+id	student_id (FK)	course_id (FK)
+1	1	101
+2	2	102
+
+👉 Here:
+
+student_id refers to Students.id
+
+course_id refers to Courses.course_id
+
+This is Foreign Key
+
+Python Connection 🧠
+students = [
+ {"id":1,"name":"Akshay"},
+ {"id":2,"name":"Rahul"}
+]
+
+courses = [
+ {"course_id":101,"course":"CSE"},
+ {"course_id":102,"course":"ECE"}
+]
+
+enrollments = [
+ {"id":1,"student_id":1,"course_id":101},
+ {"id":2,"student_id":2,"course_id":102}
+]
+
+👉 Here:
+
+student_id connects to students
+
+course_id connects to courses
+
+Same as Foreign Key in database
+
+Why Foreign Key is Important
+
+✔ Connects tables
+✔ Avoids data duplication
+✔ Maintains consistency
+
+Example:
+Instead of writing "Akshay" everywhere → use id
+
+SQL Example
+CREATE TABLE enrollments (
+ id INT PRIMARY KEY,
+ student_id INT,
+ course_id INT,
+ FOREIGN KEY (student_id) REFERENCES students(id),
+ FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+Memory Trick
+Foreign Key = Bridge between tables
+2️⃣ Normalization (Making Data Clean)
+Simple Idea
+
+Normalization means organizing data to:
+
+Remove duplicates
+
+Avoid redundancy
+
+Improve efficiency
+
+Problem Without Normalization ❌
+
+Imagine this table:
+
+student	course	instructor
+Akshay	CSE	John
+Akshay	AI	John
+Rahul	ECE	Mike
+
+👉 Problems:
+
+"Akshay" repeated
+
+"John" repeated
+
+Waste of memory
+
+Hard to update
+
+Solution: Normalize ✅
+
+Split into multiple tables:
+
+Students
+id	name
+1	Akshay
+2	Rahul
+Courses
+id	course	instructor
+101	CSE	John
+102	AI	John
+103	ECE	Mike
+Enrollments
+id	student_id	course_id
+1	1	101
+2	1	102
+3	2	103
+
+👉 Now:
+
+No repetition
+
+Clean structure
+
+Easy updates
+
+Python Connection 🧠
+Bad Design ❌
+data = [
+ {"name":"Akshay","course":"CSE","teacher":"John"},
+ {"name":"Akshay","course":"AI","teacher":"John"}
+]
+Good Design ✅
+students = [{"id":1,"name":"Akshay"}]
+
+courses = [
+ {"id":101,"course":"CSE","teacher":"John"},
+ {"id":102,"course":"AI","teacher":"John"}
+]
+
+enrollments = [
+ {"student_id":1,"course_id":101},
+ {"student_id":1,"course_id":102}
+]
+Why Normalization Works
+
+Because it:
+
+✔ Reduces duplication
+✔ Saves memory
+✔ Makes updates easy
+✔ Improves data consistency
+
+Simple Memory Trick
+Normalization = Break big messy table into smaller clean tables
+Placement Insight ⭐
+
+Very common questions:
+
+Q: What is Foreign Key?
+
+👉 Column that connects two tables
+
+Q: What is Normalization?
+
+👉 Process of reducing redundancy
+
+Q: Why normalization is needed?
+
+👉 To avoid duplicate data and maintain consistency
+
+Quick Revision (1 Minute)
+Foreign Key
+Foreign Key = Link between tables
+Normalization
+Normalization = Remove duplicates by splitting tables
+What You Learned Today
+
+✔ How tables are connected using Foreign Keys
+✔ Why relationships matter in databases
+✔ What normalization is
+✔ How to design clean databases
