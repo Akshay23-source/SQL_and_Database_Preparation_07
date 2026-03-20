@@ -1,0 +1,150 @@
+🔥 Today’s Concepts:
+
+1️⃣ ORDER BY (Sorting data)
+2️⃣ LIMIT (Getting top results)
+
+1️⃣ ORDER BY (Sorting Data)
+Simple Idea
+
+ORDER BY is used to sort the result
+
+👉 It answers:
+“In what order should data be shown?”
+
+Real-World Mental Model 🧠
+
+Think:
+
+👉 “Show students sorted by marks”
+
+Like ranking in exams:
+
+Topper first
+
+Lowest last
+
+Example Table: students
+id	name	marks
+1	Akshay	85
+2	Rahul	72
+3	Neha	90
+Sort in Ascending Order (Default)
+SELECT * FROM students ORDER BY marks;
+
+👉 Output:
+
+name	marks
+Rahul	72
+Akshay	85
+Neha	90
+Sort in Descending Order
+SELECT * FROM students ORDER BY marks DESC;
+
+👉 Output:
+
+name	marks
+Neha	90
+Akshay	85
+Rahul	72
+Python Connection 🧠
+
+SQL:
+
+SELECT * FROM students ORDER BY marks DESC;
+
+Python:
+
+students = sorted(students, key=lambda x: x["marks"], reverse=True)
+
+👉 SQL replaces sorting logic with one line.
+
+Sort by Multiple Columns
+SELECT * FROM students 
+ORDER BY branch, marks DESC;
+
+👉 First sorts by branch, then marks
+
+Memory Trick 🧠
+ORDER BY = Arrange data
+2️⃣ LIMIT (Getting Top Results)
+Simple Idea
+
+LIMIT is used to restrict number of rows
+
+👉 It answers:
+“How many results do you want?”
+
+Real-World Example 🧠
+
+👉 “Show top 3 students”
+
+SQL Example
+SELECT * FROM students 
+ORDER BY marks DESC 
+LIMIT 3;
+
+👉 Gives top 3 scorers
+
+Python Connection 🧠
+
+SQL:
+
+SELECT * FROM students ORDER BY marks DESC LIMIT 3;
+
+Python:
+
+top_students = sorted(students, key=lambda x: x["marks"], reverse=True)[:3]
+Why LIMIT is Important
+
+Without LIMIT:
+
+You may get huge data (slow)
+
+With LIMIT:
+
+You get only what you need
+
+Combine WHERE + ORDER BY + LIMIT 🔥
+
+This is very common in interviews.
+
+SELECT * FROM students
+WHERE branch='CSE'
+ORDER BY marks DESC
+LIMIT 2;
+
+👉 Meaning:
+
+Get top 2 CSE students based on marks
+Execution Order (Important for Interviews)
+FROM → WHERE → ORDER BY → LIMIT → SELECT
+Memory Trick 🧠
+LIMIT = Control how much data comes
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: How to get top 5 highest salaries?
+SELECT * FROM employees 
+ORDER BY salary DESC 
+LIMIT 5;
+Q2: Difference between ORDER BY and WHERE?
+Clause	Purpose
+WHERE	Filters rows
+ORDER BY	Sorts rows
+Quick Revision (1 Minute)
+ORDER BY = sort data
+LIMIT = restrict data
+
+Example:
+
+SELECT * FROM students ORDER BY marks DESC LIMIT 3;
+
+👉 Top 3 students
+
+What You Learned Today
+
+✔ How to sort data using ORDER BY
+✔ How to get limited results using LIMIT
+✔ How SQL replaces Python sorting logic
+✔ How to combine multiple clauses
