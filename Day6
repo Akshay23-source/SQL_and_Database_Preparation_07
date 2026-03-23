@@ -1,0 +1,175 @@
+Day 6 – Data Analysis with SQL (21 March 2026)
+
+Today you’ll learn how SQL is used for real-world data analysis 🔥
+These are SUPER IMPORTANT for placements (very frequently asked).
+
+🔥 Today’s Concepts:
+
+1️⃣ Aggregate Functions (COUNT, SUM, AVG, MIN, MAX)
+2️⃣ GROUP BY (Grouping Data)
+
+1️⃣ Aggregate Functions (Summary of Data)
+Simple Idea
+
+Aggregate functions are used to perform calculations on multiple rows and return a single value.
+
+👉 It answers:
+“Give me summary, not raw data”
+
+Real-World Mental Model 🧠
+
+Think:
+
+👉 Instead of listing all student marks, you ask:
+
+Total marks?
+Average marks?
+Highest marks?
+Example Table: students
+id	name	marks
+1	Akshay	85
+2	Rahul	72
+3	Neha	90
+4	Rohit	85
+Common Aggregate Functions
+1. COUNT() → Count rows
+SELECT COUNT(*) FROM students;
+
+👉 Output: 4
+
+2. SUM() → Total
+SELECT SUM(marks) FROM students;
+
+👉 Output: 332
+
+3. AVG() → Average
+SELECT AVG(marks) FROM students;
+
+👉 Output: 83
+
+4. MAX() → Highest value
+SELECT MAX(marks) FROM students;
+
+👉 Output: 90
+
+5. MIN() → Lowest value
+SELECT MIN(marks) FROM students;
+
+👉 Output: 72
+
+Python Connection 🧠
+
+SQL:
+
+SELECT AVG(marks) FROM students;
+
+Python:
+
+avg = sum(s["marks"] for s in students) / len(students)
+
+👉 SQL does it in one line instead of logic
+
+Why Aggregate Functions Matter
+
+✔ Used in analytics
+✔ Used in reports
+✔ Used in dashboards
+✔ Asked in almost every interview
+
+Memory Trick 🧠
+Aggregate = Combine many → give one result
+2️⃣ GROUP BY (Grouping Data)
+Simple Idea
+
+GROUP BY is used to group rows with same values
+
+👉 It answers:
+“Group data, then analyze it”
+
+Real-World Example 🧠
+
+👉 “Find average marks for each branch”
+
+Example Table
+name	branch	marks
+Akshay	CSE	85
+Rahul	ECE	72
+Neha	CSE	90
+Rohit	ECE	80
+SQL Query
+SELECT branch, AVG(marks)
+FROM students
+GROUP BY branch;
+Output
+branch	avg_marks
+CSE	87.5
+ECE	76
+Step-by-Step Understanding
+1. GROUP rows by branch
+2. Apply AVG on each group
+Python Connection 🧠
+
+SQL:
+
+SELECT branch, AVG(marks) FROM students GROUP BY branch;
+
+Python:
+
+from collections import defaultdict
+
+groups = defaultdict(list)
+
+for s in students:
+    groups[s["branch"]].append(s["marks"])
+
+for branch in groups:
+    avg = sum(groups[branch]) / len(groups[branch])
+    print(branch, avg)
+
+👉 SQL replaces complex grouping logic
+
+Why GROUP BY is Powerful
+
+✔ Used in reports (sales per city, marks per branch)
+✔ Used in dashboards
+✔ Used in analytics queries
+
+Important Rule ⚠️
+
+👉 When using GROUP BY:
+
+Every selected column must be:
+1. In GROUP BY OR
+2. Inside aggregate function
+Memory Trick 🧠
+GROUP BY = Divide data into groups
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: Difference between WHERE and GROUP BY?
+Clause	Purpose
+WHERE	Filters rows
+GROUP BY	Groups rows
+Q2: Can we use WHERE with GROUP BY?
+
+👉 Yes:
+
+SELECT branch, AVG(marks)
+FROM students
+WHERE marks > 70
+GROUP BY branch;
+Quick Revision (1 Minute)
+COUNT → number of rows
+SUM → total
+AVG → average
+MAX → highest
+MIN → lowest
+
+GROUP BY → group data
+What You Learned Today
+
+✔ How to summarize data using aggregate functions
+✔ How to group data using GROUP BY
+✔ How SQL replaces complex Python logic
+✔ Real-world use in analytics
