@@ -1,0 +1,145 @@
+🔥 Today’s Concepts:
+
+1️⃣ Subqueries (Inner Queries)
+2️⃣ Nested Queries (Real Interview Problems)
+
+1️⃣ What is a Subquery?
+Simple Idea
+
+A Subquery is a query inside another query
+
+👉 It answers:
+“Use the result of one query inside another”
+
+Mental Model 🧠
+
+Think like this:
+
+Step 1 → Get some data
+Step 2 → Use that data to get final result
+Real-World Example
+
+👉 “Find students who scored more than average marks”
+
+Table: students
+id	name	marks
+1	Akshay	85
+2	Rahul	72
+3	Neha	90
+Step-by-Step Thinking
+Step 1: Find average marks
+SELECT AVG(marks) FROM students;
+
+👉 Suppose result = 82
+
+Step 2: Find students > 82
+SELECT * FROM students WHERE marks > 82;
+Combine → Subquery
+SELECT * FROM students
+WHERE marks > (SELECT AVG(marks) FROM students);
+Output
+name	marks
+Akshay	85
+Neha	90
+Python Connection 🧠
+avg = sum(s["marks"] for s in students) / len(students)
+
+for s in students:
+    if s["marks"] > avg:
+        print(s)
+
+👉 SQL does both steps in one query
+
+Why Subqueries are Powerful
+
+✔ Break complex problems into steps
+✔ Avoid multiple queries
+✔ Used in real-world analytics
+
+Memory Trick 🧠
+Subquery = Query inside a query
+2️⃣ Nested Queries (Interview Level)
+
+Now let’s solve real interview questions.
+
+🎯 Question 1
+
+👉 “Find students with highest marks”
+
+SQL Solution
+SELECT * FROM students
+WHERE marks = (SELECT MAX(marks) FROM students);
+🧠 Thinking
+1. Find MAX marks
+2. Get student with that marks
+🎯 Question 2
+
+👉 “Find students whose marks are above average”
+
+SELECT name FROM students
+WHERE marks > (SELECT AVG(marks) FROM students);
+🎯 Question 3
+
+👉 “Find students who belong to same branch as Akshay”
+
+SELECT * FROM students
+WHERE branch = (
+    SELECT branch FROM students WHERE name='Akshay'
+);
+🧠 Breakdown
+Inner query → find Akshay’s branch
+Outer query → find all students in that branch
+Types of Subqueries (Simple View)
+Type	Meaning
+Scalar	returns single value
+Multiple row	returns multiple values
+Correlated (advanced)	runs for each row
+Important Rule ⚠️
+
+👉 Subquery must return:
+
+Single value (for =, >, <)
+Multiple values (use IN)
+Example with IN
+SELECT * FROM students
+WHERE id IN (SELECT student_id FROM marks);
+Python Connection 🧠
+
+Think:
+
+# Step 1
+valid_ids = [m["student_id"] for m in marks]
+
+# Step 2
+for s in students:
+    if s["id"] in valid_ids:
+        print(s)
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: What is subquery?
+
+👉 Query inside another query
+
+Q2: When to use subquery?
+
+👉 When result of one query is needed for another
+
+Q3: Subquery vs JOIN?
+Subquery	JOIN
+Step-by-step	Combine tables
+Easier to think	Faster sometimes
+Quick Revision (1 Minute)
+Subquery → query inside query
+
+Use cases:
+→ average
+→ max/min
+→ filtering based on another query
+What You Learned Today
+
+✔ What subqueries are
+✔ How to solve interview problems using subqueries
+✔ How SQL replaces multi-step Python logic
+✔ When to use subqueries
