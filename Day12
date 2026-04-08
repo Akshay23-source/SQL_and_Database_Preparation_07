@@ -1,0 +1,163 @@
+Today we learn how databases ensure data safety and reliability 🔐
+👉 This is very important for interviews + real-world systems (banking, payments)
+
+🔥 Today’s Concepts:
+
+1️⃣ Transactions (ACID Properties)
+2️⃣ COMMIT & ROLLBACK (Control changes)
+
+1️⃣ What is a Transaction?
+Simple Idea
+
+A Transaction is a group of SQL operations executed as a single unit
+
+👉 Either ALL succeed or NONE happen
+
+Real-World Mental Model 🧠
+
+Think about bank transfer:
+
+👉 Transfer ₹1000 from A → B
+
+Steps:
+
+Deduct ₹1000 from A
+Add ₹1000 to B
+Problem ❌
+
+If system crashes after step 1:
+
+A loses money ❌
+B doesn't receive ❌
+
+👉 Data becomes inconsistent
+
+Solution → Transaction ✅
+Either:
+✔ Both steps succeed
+OR
+❌ Both fail (no change)
+Memory Trick 🧠
+Transaction = All or Nothing
+ACID Properties (VERY IMPORTANT 🔥)
+
+These ensure transactions are safe and reliable
+
+1. Atomicity (All or Nothing)
+
+👉 Either complete fully OR not at all
+
+Example:
+
+Money transfer should not be half-done
+2. Consistency (Valid State)
+
+👉 Database must remain correct
+
+Example:
+
+Total money should remain same
+3. Isolation (No Interference)
+
+👉 Multiple transactions don’t disturb each other
+
+Example:
+
+Two users withdrawing should not clash
+4. Durability (Permanent Save)
+
+👉 Once committed → data is permanent
+
+Even after crash ✅
+
+Easy Way to Remember 🧠
+ACID = Safety Rules of Database
+Python Connection
+
+Think:
+
+try:
+    deduct_money()
+    add_money()
+except:
+    rollback()
+
+👉 Same concept as transaction
+
+2️⃣ COMMIT & ROLLBACK
+Simple Idea
+
+These control saving or undoing changes
+
+COMMIT
+
+👉 Saves changes permanently
+
+COMMIT;
+ROLLBACK
+
+👉 Undo changes
+
+ROLLBACK;
+Example
+BEGIN;
+
+UPDATE accounts SET balance = balance - 1000 WHERE id=1;
+UPDATE accounts SET balance = balance + 1000 WHERE id=2;
+
+COMMIT;
+If Error Happens
+ROLLBACK;
+
+👉 Everything goes back to original state
+
+Python Connection 🧠
+backup = data.copy()
+
+try:
+    update_data()
+except:
+    data = backup
+
+👉 ROLLBACK = restore backup
+
+Why This is Important
+
+✔ Used in banking apps
+✔ Used in payment systems
+✔ Prevents data corruption
+✔ Ensures reliability
+
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: What is a transaction?
+
+👉 Group of operations executed as one unit
+
+Q2: What is ACID?
+
+👉 Rules ensuring safe transactions
+
+Q3: Difference between COMMIT and ROLLBACK?
+Command	Purpose
+COMMIT	Save changes
+ROLLBACK	Undo changes
+Quick Revision (1 Minute)
+Transaction → All or Nothing
+
+ACID:
+A → Atomicity
+C → Consistency
+I → Isolation
+D → Durability
+
+COMMIT → save
+ROLLBACK → undo
+What You Learned Today
+
+✔ What transactions are
+✔ Why ACID properties matter
+✔ How COMMIT & ROLLBACK work
+✔ Real-world importance (banking systems)
