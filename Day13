@@ -1,0 +1,187 @@
+🔥 Today’s Concepts:
+
+1️⃣ Constraints (NOT NULL, UNIQUE, CHECK)
+2️⃣ Keys Deep Revision (Primary, Foreign, Candidate, Super Key)
+
+1️⃣ Constraints (Rules on Data)
+Simple Idea
+
+Constraints are rules applied on table columns
+
+👉 They ensure data is correct and valid
+
+Mental Model 🧠
+
+Think:
+
+Constraints = Rules of the database
+
+Just like:
+
+College rules (no duplicate roll number)
+Bank rules (balance cannot be negative)
+Why Constraints Are Needed
+
+Without constraints ❌:
+
+Duplicate data
+Missing data
+Invalid values
+
+With constraints ✅:
+
+Clean data
+Reliable system
+🔹 1. NOT NULL
+
+👉 Column cannot be empty
+
+Example
+CREATE TABLE students (
+ name VARCHAR(50) NOT NULL
+);
+Real Meaning
+
+👉 Every student must have a name
+
+Python Connection 🧠
+if name is None:
+    raise Error
+🔹 2. UNIQUE
+
+👉 No duplicate values allowed
+
+Example
+CREATE TABLE students (
+ email VARCHAR(100) UNIQUE
+);
+Real Meaning
+
+👉 No two students can have same email
+
+Python Connection
+emails = set()
+🔹 3. CHECK
+
+👉 Restricts values based on condition
+
+Example
+CREATE TABLE students (
+ marks INT CHECK (marks >= 0)
+);
+Real Meaning
+
+👉 Marks cannot be negative
+
+Python Connection
+if marks < 0:
+    raise Error
+Memory Trick 🧠
+NOT NULL → must exist
+UNIQUE → no duplicate
+CHECK → must follow condition
+2️⃣ Keys (Deep Understanding)
+
+Today we revise and connect all keys clearly
+
+🔹 1. Super Key
+
+👉 Any column(s) that can uniquely identify a row
+
+Example:
+
+id	email	phone
+
+Possible super keys:
+
+id
+email
+(id + name)
+🔹 2. Candidate Key
+
+👉 Minimal super key (no extra column)
+
+Example:
+
+id ✅
+email ✅
+(id + name) ❌ (extra column)
+🔹 3. Primary Key
+
+👉 Selected candidate key
+
+✔ Unique
+✔ Not NULL
+
+🔹 4. Foreign Key
+
+👉 Column that references another table
+
+Mental Model 🧠
+Super Key → many possibilities
+Candidate Key → best options
+Primary Key → chosen one
+Foreign Key → connects tables
+Visual Flow
+Super Key
+   ↓
+Candidate Key
+   ↓
+Primary Key
+Real Example
+Students Table
+id (PK)	email (candidate key)	name
+Enrollments Table
+id	student_id (FK)
+Python Connection 🧠
+students = [
+ {"id":1,"email":"a@gmail.com"}
+]
+
+enrollments = [
+ {"student_id":1}
+]
+
+👉 student_id → Foreign Key
+
+Why Keys Are Important
+
+✔ Identify data uniquely
+✔ Connect tables
+✔ Maintain relationships
+✔ Prevent duplicates
+
+Memory Trick 🧠
+Primary Key = Identity
+Foreign Key = Connection
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: Difference between Primary Key and Unique?
+Feature	Primary Key	UNIQUE
+NULL allowed	❌ No	✅ Yes (sometimes)
+Count per table	One	Many
+Q2: What is Candidate Key?
+
+👉 Minimal key that can uniquely identify row
+
+Q3: What is Super Key?
+
+👉 Any key that uniquely identifies row
+
+Quick Revision (1 Minute)
+NOT NULL → no empty values
+UNIQUE → no duplicates
+CHECK → valid values only
+
+Super Key → many
+Candidate Key → minimal
+Primary Key → chosen
+Foreign Key → connection
+What You Learned Today
+
+✔ What constraints are and why needed
+✔ Types of constraints (NOT NULL, UNIQUE, CHECK)
+✔ Deep understanding of all keys
+✔ How keys relate to each other
