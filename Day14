@@ -1,0 +1,152 @@
+Today we cover very practical + commonly asked interview topics 🔥
+👉 Many students confuse these — we’ll make it crystal clear.
+
+🔥 Today’s Concepts:
+
+1️⃣ DELETE vs TRUNCATE vs DROP
+2️⃣ ALTER & UPDATE (Modify structure & data)
+
+1️⃣ DELETE vs TRUNCATE vs DROP
+🧠 Mental Model First
+
+Think of a notebook 📓
+
+Operation	Meaning
+DELETE	Remove some lines
+TRUNCATE	Erase all pages
+DROP	Throw away the notebook
+🔹 1. DELETE
+Simple Idea
+
+👉 Removes specific rows
+
+Example
+DELETE FROM students WHERE id = 1;
+Features
+
+✔ Can use WHERE
+✔ Deletes selected rows
+✔ Can be rolled back
+
+Python Connection 🧠
+students = [s for s in students if s["id"] != 1]
+🔹 2. TRUNCATE
+Simple Idea
+
+👉 Removes ALL rows (fast)
+
+Example
+TRUNCATE TABLE students;
+Features
+
+✔ Removes all data
+✔ Very fast
+❌ Cannot use WHERE
+❌ Cannot rollback (in most DBs)
+
+Mental Model
+TRUNCATE = Empty table, keep structure
+🔹 3. DROP
+Simple Idea
+
+👉 Deletes entire table
+
+Example
+DROP TABLE students;
+Features
+
+✔ Deletes structure + data
+✔ Table is gone completely
+
+🔥 Final Comparison (Very Important)
+Feature	DELETE	TRUNCATE	DROP
+Removes rows	✅ Yes	✅ All	❌ (removes table)
+WHERE allowed	✅ Yes	❌ No	❌ No
+Rollback	✅ Yes	❌ No	❌ No
+Table exists after	✅ Yes	✅ Yes	❌ No
+Memory Trick 🧠
+DELETE → selective delete
+TRUNCATE → full clear
+DROP → remove everything
+2️⃣ ALTER & UPDATE
+
+Now let’s learn how to modify data and table structure
+
+🔹 UPDATE (Change Data)
+Simple Idea
+
+👉 Used to modify existing data
+
+Example
+UPDATE students
+SET branch = 'AI'
+WHERE id = 1;
+Python Connection 🧠
+for s in students:
+    if s["id"] == 1:
+        s["branch"] = "AI"
+Important ⚠️
+
+👉 If you forget WHERE:
+
+UPDATE students SET branch='AI';
+
+👉 ALL rows will change 😱
+
+Memory Trick
+UPDATE = Change data
+🔹 ALTER (Change Table Structure)
+Simple Idea
+
+👉 Used to modify table structure
+
+Add Column
+ALTER TABLE students
+ADD age INT;
+Drop Column
+ALTER TABLE students
+DROP COLUMN age;
+Modify Column
+ALTER TABLE students
+MODIFY name VARCHAR(100);
+Python Connection 🧠
+
+Think like modifying structure:
+
+for s in students:
+    s["age"] = 20
+Memory Trick 🧠
+ALTER = Change table structure
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: Difference between DELETE and TRUNCATE?
+
+👉
+
+DELETE → row-wise
+TRUNCATE → all rows, faster
+Q2: Difference between TRUNCATE and DROP?
+
+👉
+
+TRUNCATE → keeps table
+DROP → deletes table
+Q3: What happens if WHERE is missing in UPDATE?
+
+👉 All rows get updated ❌
+
+Quick Revision (1 Minute)
+DELETE → remove some rows
+TRUNCATE → remove all rows
+DROP → delete table
+
+UPDATE → modify data
+ALTER → modify structure
+What You Learned Today
+
+✔ Difference between DELETE, TRUNCATE, DROP
+✔ How to safely update data
+✔ How to modify table structure
+✔ Common mistakes (very important for interviews)
