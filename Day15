@@ -1,0 +1,141 @@
+Smart Filtering & Pattern Matching (30 March 2026)
+
+Today we learn how to search data like Google 🔍
+👉 These are very common in interviews + real SQL queries
+
+🔥 Today’s Concepts:
+
+1️⃣ LIKE & Wildcards (Pattern Matching)
+2️⃣ IN & BETWEEN (Smart Filtering)
+
+1️⃣ LIKE & Wildcards (Search Patterns)
+Simple Idea
+
+LIKE is used to search patterns in data
+
+👉 It answers:
+“Find data that looks like this…”
+
+Real-World Mental Model 🧠
+
+Think:
+
+👉 Searching contacts in phone:
+
+“Names starting with A”
+“Names ending with y”
+Wildcards (Special Symbols)
+Symbol	Meaning
+%	Any number of characters
+_	Exactly one character
+Example Table
+name
+Akshay
+Ankit
+Rahul
+Riya
+🔹 Starts with ‘A’
+SELECT * FROM students
+WHERE name LIKE 'A%';
+
+👉 Output: Akshay, Ankit
+
+🔹 Ends with ‘y’
+SELECT * FROM students
+WHERE name LIKE '%y';
+
+👉 Output: Akshay, Riya
+
+🔹 Contains ‘ha’
+SELECT * FROM students
+WHERE name LIKE '%ha%';
+
+👉 Output: Akshay, Rahul
+
+🔹 Exactly 5 letters
+SELECT * FROM students
+WHERE name LIKE '_____';
+
+👉 _ _ _ _ _ (5 characters)
+
+Python Connection 🧠
+[s for s in students if s["name"].startswith("A")]
+
+👉 LIKE ≈ string matching
+
+Memory Trick 🧠
+LIKE = Search patterns
+% = anything
+_ = one character
+2️⃣ IN & BETWEEN (Smart Filtering)
+🔹 IN (Multiple Values)
+Simple Idea
+
+👉 Used to match multiple values
+
+Example
+SELECT * FROM students
+WHERE branch IN ('CSE','ECE');
+
+👉 Same as:
+
+WHERE branch='CSE' OR branch='ECE'
+Python Connection 🧠
+if s["branch"] in ["CSE","ECE"]:
+Memory Trick
+IN = One of many values
+🔹 BETWEEN (Range Filtering)
+Simple Idea
+
+👉 Used to filter values in a range
+
+Example
+SELECT * FROM students
+WHERE marks BETWEEN 70 AND 90;
+
+👉 Includes both 70 and 90
+
+Python Connection 🧠
+if 70 <= s["marks"] <= 90:
+Important Point ⚠️
+
+👉 BETWEEN is inclusive
+
+70 ≤ marks ≤ 90
+Combine IN + BETWEEN 🔥
+SELECT * FROM students
+WHERE branch IN ('CSE','ECE')
+AND marks BETWEEN 70 AND 90;
+
+👉 Meaning:
+
+CSE/ECE students with marks between 70–90
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: Difference between LIKE and = ?
+Operator	Use
+=	Exact match
+LIKE	Pattern match
+Q2: BETWEEN inclusive or exclusive?
+
+👉 Inclusive ✅
+
+Q3: IN vs OR?
+
+👉 IN is shorter and cleaner
+
+Quick Revision (1 Minute)
+LIKE → pattern search
+% → any characters
+_ → one character
+
+IN → multiple values
+BETWEEN → range
+What You Learned Today
+
+✔ How to search patterns using LIKE
+✔ How wildcards work
+✔ How to filter multiple values using IN
+✔ How to filter ranges using BETWEEN
