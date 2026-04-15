@@ -1,0 +1,148 @@
+Today we learn how to add logic inside SQL queries 🧠
+👉 This is used in real-world dashboards, reports, and interviews
+
+🔥 Today’s Concepts:
+
+1️⃣ CASE (Conditional Logic in SQL)
+2️⃣ NULL Handling (IS NULL, IS NOT NULL)
+
+1️⃣ CASE (If-Else in SQL)
+Simple Idea
+
+CASE is used to apply conditions (like if-else in programming)
+
+👉 It answers:
+“If condition is true → do this, else do that”
+
+Mental Model 🧠
+CASE = SQL version of if-else
+Example Table
+name	marks
+Akshay	85
+Rahul	72
+Neha	90
+Problem
+
+👉 “Classify students as Pass/Fail”
+
+SQL Query
+SELECT name,
+CASE
+    WHEN marks >= 75 THEN 'Pass'
+    ELSE 'Fail'
+END AS result
+FROM students;
+Output
+name	result
+Akshay	Pass
+Rahul	Fail
+Neha	Pass
+Multiple Conditions
+SELECT name,
+CASE
+    WHEN marks >= 90 THEN 'Excellent'
+    WHEN marks >= 75 THEN 'Good'
+    ELSE 'Average'
+END AS grade
+FROM students;
+Python Connection 🧠
+if marks >= 90:
+    grade = "Excellent"
+elif marks >= 75:
+    grade = "Good"
+else:
+    grade = "Average"
+
+👉 CASE = same logic inside SQL
+
+Why CASE is Powerful
+
+✔ Used in reports
+✔ Used in dashboards
+✔ Used in interview queries
+
+Memory Trick 🧠
+CASE = If-Else in SQL
+2️⃣ NULL Handling (Missing Data)
+Simple Idea
+
+NULL means “no value” (missing data)
+
+👉 It is NOT:
+
+0 ❌
+empty string ❌
+
+👉 It means: unknown / not available
+
+Example Table
+name	marks
+Akshay	85
+Rahul	NULL
+Neha	90
+Problem
+
+👉 Find students with missing marks
+
+SQL Query
+SELECT * FROM students
+WHERE marks IS NULL;
+Opposite
+SELECT * FROM students
+WHERE marks IS NOT NULL;
+Important Rule ⚠️
+
+❌ Wrong:
+
+marks = NULL
+
+✔ Correct:
+
+marks IS NULL
+Python Connection 🧠
+if s["marks"] is None:
+Why NULL Handling is Important
+
+✔ Missing data is common
+✔ Prevents wrong calculations
+✔ Required in real-world datasets
+
+Combining CASE + NULL 🔥
+SELECT name,
+CASE
+    WHEN marks IS NULL THEN 'No Data'
+    WHEN marks >= 75 THEN 'Pass'
+    ELSE 'Fail'
+END AS result
+FROM students;
+Memory Trick 🧠
+NULL = Missing value
+IS NULL → check missing
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: What is NULL?
+
+👉 Missing / unknown value
+
+Q2: Difference between NULL and 0?
+NULL	0
+No value	Actual value
+Unknown	Known
+Q3: Why can't we use = NULL?
+
+👉 Because NULL is not a value → it’s unknown
+
+Quick Revision (1 Minute)
+CASE → if-else logic
+
+NULL → missing value
+IS NULL → check missing
+IS NOT NULL → check present
+What You Learned Today
+
+✔ How to use CASE for conditional logic
+✔ How to handle NULL values
+✔ Why NULL is different from 0
+✔ How to combine logic in SQL queries
