@@ -1,0 +1,161 @@
+🔥 Today’s Concepts:
+
+1️⃣ Window Functions (OVER clause)
+2️⃣ Ranking Functions (ROW_NUMBER, RANK, DENSE_RANK)
+
+1️⃣ Window Functions (Game Changer Concept)
+Simple Idea
+
+Window functions perform calculations across rows without grouping them
+
+👉 Unlike GROUP BY → it does NOT collapse rows
+
+Mental Model 🧠
+GROUP BY → merges rows
+Window Function → keeps rows + adds calculation
+Example Table
+name	branch	marks
+Akshay	CSE	85
+Neha	CSE	90
+Rahul	ECE	72
+Rohit	ECE	80
+Problem
+
+👉 “Show each student with average marks of their branch”
+
+SQL Query
+SELECT name, branch, marks,
+AVG(marks) OVER (PARTITION BY branch) AS avg_branch_marks
+FROM students;
+Output
+name	branch	marks	avg_branch_marks
+Akshay	CSE	85	87.5
+Neha	CSE	90	87.5
+Rahul	ECE	72	76
+Rohit	ECE	80	76
+🧠 Key Understanding
+PARTITION BY = grouping (but without merging rows)
+Python Connection 🧠
+from collections import defaultdict
+
+groups = defaultdict(list)
+
+for s in students:
+    groups[s["branch"]].append(s["marks"])
+
+for s in students:
+    avg = sum(groups[s["branch"]]) / len(groups[s["branch"]])
+    print(s["name"], avg)
+
+👉 SQL does this in one query
+
+Why Window Functions Are Powerful
+
+✔ Keeps original data
+✔ Adds computed values
+✔ Used in analytics
+
+Memory Trick 🧠
+Window Function = Calculation over a window of rows
+2️⃣ Ranking Functions
+
+Now we rank data (very common interview topic 🔥)
+
+🔹 ROW_NUMBER()
+Simple Idea
+
+👉 Gives unique number to each row
+
+Example
+SELECT name, marks,
+ROW_NUMBER() OVER (ORDER BY marks DESC) AS rank
+FROM students;
+Output
+name	marks	rank
+Neha	90	1
+Akshay	85	2
+Rohit	80	3
+Rahul	72	4
+🔹 RANK()
+Simple Idea
+
+👉 Same marks → same rank
+👉 Skips numbers
+
+Example:
+
+marks	rank
+90	1
+85	2
+85	2
+80	4
+🔹 DENSE_RANK()
+Simple Idea
+
+👉 Same marks → same rank
+👉 NO skipping
+
+Example:
+
+marks	rank
+90	1
+85	2
+85	2
+80	3
+🧠 Key Difference
+Function	Duplicate Handling
+ROW_NUMBER	Always unique
+RANK	Skips numbers
+DENSE_RANK	No skipping
+Python Connection 🧠
+sorted_students = sorted(students, key=lambda x: x["marks"], reverse=True)
+
+👉 Ranking logic is built-in SQL
+
+Real Interview Question 🔥
+
+👉 “Find top 2 students in each branch”
+
+SELECT *
+FROM (
+    SELECT name, branch, marks,
+    ROW_NUMBER() OVER (PARTITION BY branch ORDER BY marks DESC) AS rnk
+    FROM students
+) t
+WHERE rnk <= 2;
+🧠 Breakdown
+1. Partition by branch
+2. Rank inside each branch
+3. Pick top 2
+Memory Trick 🧠
+ROW_NUMBER → unique
+RANK → skip gaps
+DENSE_RANK → no gaps
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: Difference between GROUP BY and Window Function?
+GROUP BY	Window
+Merges rows	Keeps rows
+Summary only	Detailed + summary
+Q2: When to use ROW_NUMBER?
+
+👉 When you need unique ranking
+
+Q3: Top N per group?
+
+👉 Use ROW_NUMBER + PARTITION BY
+
+Quick Revision (1 Minute)
+Window Function → calculation without grouping
+
+ROW_NUMBER → unique rank
+RANK → skips numbers
+DENSE_RANK → no skipping
+What You Learned Today
+
+✔ What window functions are
+✔ How PARTITION BY works
+✔ Difference between ranking functions
+✔ Solving top-N interview problems
