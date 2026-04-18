@@ -1,0 +1,150 @@
+Today we move into advanced structured querying 🔥
+👉 These concepts help you write clean, readable, interview-level SQL
+
+🔥 Today’s Concepts:
+
+1️⃣ CTE (Common Table Expressions)
+2️⃣ Recursive Queries (Hierarchy problems)
+
+1️⃣ CTE (Common Table Expression)
+Simple Idea
+
+A CTE is a temporary named result set used inside a query
+
+👉 Think of it as a temporary table for one query
+
+Mental Model 🧠
+CTE = Temporary table (only for this query)
+Why CTE is Needed
+
+Without CTE ❌:
+
+Queries become long and messy
+Hard to read
+
+With CTE ✅:
+
+Clean
+Modular
+Easy to debug
+Example Problem
+
+👉 “Find students with marks above average”
+
+Without CTE
+SELECT * FROM students
+WHERE marks > (SELECT AVG(marks) FROM students);
+With CTE
+WITH avg_marks AS (
+    SELECT AVG(marks) AS avg_val FROM students
+)
+SELECT * FROM students
+WHERE marks > (SELECT avg_val FROM avg_marks);
+🧠 Understanding
+WITH → create temporary result
+avg_marks → name of that result
+Python Connection 🧠
+avg = sum(s["marks"] for s in students) / len(students)
+
+result = [s for s in students if s["marks"] > avg]
+
+👉 CTE = breaking problem into steps
+
+Memory Trick 🧠
+CTE = Named temporary result
+2️⃣ Recursive Queries (Advanced)
+Simple Idea
+
+Recursive query = query that refers to itself
+
+👉 Used for hierarchical data
+
+Real-World Example 🧠
+
+👉 Company hierarchy:
+
+id	name	manager_id
+1	CEO	NULL
+2	Manager	1
+3	Employee	2
+
+👉 Question:
+
+“Find all employees under CEO”
+
+SQL (Recursive CTE)
+WITH RECURSIVE emp_hierarchy AS (
+    
+    -- Base case
+    SELECT id, name, manager_id
+    FROM employees
+    WHERE manager_id IS NULL
+
+    UNION ALL
+
+    -- Recursive case
+    SELECT e.id, e.name, e.manager_id
+    FROM employees e
+    JOIN emp_hierarchy eh
+    ON e.manager_id = eh.id
+)
+
+SELECT * FROM emp_hierarchy;
+🧠 Step-by-Step Thinking
+1. Start with CEO (base case)
+2. Find employees under CEO
+3. Repeat until no more rows
+Python Connection 🧠
+def get_employees(manager_id):
+    result = []
+    for e in employees:
+        if e["manager_id"] == manager_id:
+            result.append(e)
+            result.extend(get_employees(e["id"]))
+    return result
+
+👉 Recursive SQL = recursive function
+
+Where Recursive Queries Are Used
+
+✔ Employee hierarchy
+✔ Folder structure
+✔ Tree/graph problems
+✔ Organization charts
+
+Memory Trick 🧠
+Recursive Query = Query calling itself
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: What is CTE?
+
+👉 Temporary named result used in query
+
+Q2: Why use CTE?
+
+👉 Improves readability and structure
+
+Q3: What is recursive query?
+
+👉 Query that repeatedly calls itself
+
+Q4: When to use recursion?
+
+👉 Hierarchical data (tree structures)
+
+Quick Revision (1 Minute)
+CTE → temporary table
+
+Recursive Query → self-calling query
+
+Used for:
+→ hierarchy
+→ tree structures
+What You Learned Today
+
+✔ What CTE is and why it is used
+✔ How to write clean SQL using CTE
+✔ What recursive queries are
+✔ How to solve hierarchy problems
