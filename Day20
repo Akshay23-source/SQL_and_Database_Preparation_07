@@ -1,0 +1,147 @@
+Today we learn how databases can run logic automatically 🔥
+👉 These are used in real systems + frequently asked in interviews
+
+🔥 Today’s Concepts:
+
+1️⃣ Stored Procedures (Reusable SQL logic)
+2️⃣ Triggers (Automatic actions in DB)
+
+1️⃣ Stored Procedures (Reusable Logic)
+Simple Idea
+
+A Stored Procedure is a saved set of SQL statements inside the database
+
+👉 You can call it anytime like a function
+
+Mental Model 🧠
+Stored Procedure = SQL function stored in DB
+Why We Need It
+
+Without stored procedure ❌:
+
+You write same query again & again
+
+With stored procedure ✅:
+
+Write once, reuse anytime
+Example
+
+👉 “Get all CSE students”
+
+Create Procedure
+CREATE PROCEDURE get_cse_students()
+BEGIN
+    SELECT * FROM students WHERE branch='CSE';
+END;
+Call Procedure
+CALL get_cse_students();
+Python Connection 🧠
+def get_cse_students():
+    return [s for s in students if s["branch"] == "CSE"]
+
+👉 Stored Procedure ≈ Python function
+
+With Parameters 🔥
+CREATE PROCEDURE get_students_by_branch(IN b VARCHAR(50))
+BEGIN
+    SELECT * FROM students WHERE branch = b;
+END;
+
+Call:
+
+CALL get_students_by_branch('ECE');
+Why Stored Procedures Are Powerful
+
+✔ Reusable logic
+✔ Faster execution (precompiled)
+✔ Secure (hide SQL logic)
+
+Memory Trick 🧠
+Stored Procedure = Reusable SQL function
+2️⃣ Triggers (Automatic Execution)
+Simple Idea
+
+A Trigger runs automatically when an event happens
+
+👉 You don’t call it manually
+
+Mental Model 🧠
+Trigger = Automatic reaction
+Real-World Example
+
+👉 When a new student is added → log it automatically
+
+Example Table
+students
+id	name
+log_table
+message
+Create Trigger
+CREATE TRIGGER after_student_insert
+AFTER INSERT ON students
+FOR EACH ROW
+BEGIN
+    INSERT INTO log_table VALUES ('New student added');
+END;
+What Happens
+INSERT INTO students VALUES (1,'Akshay');
+
+👉 Automatically:
+
+"New student added"
+
+is inserted into log_table
+
+Types of Triggers
+Type	When it runs
+BEFORE	Before operation
+AFTER	After operation
+Events
+Event	Meaning
+INSERT	New data added
+UPDATE	Data changed
+DELETE	Data removed
+Python Connection 🧠
+def insert_student(student):
+    students.append(student)
+    log.append("New student added")
+
+👉 Trigger = automatic function call
+
+Why Triggers Are Useful
+
+✔ Automation
+✔ Data auditing
+✔ Enforcing rules
+✔ Logging changes
+
+Memory Trick 🧠
+Trigger = Automatic action on event
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: Difference between Stored Procedure and Trigger?
+Feature	Stored Procedure	Trigger
+Execution	Manual	Automatic
+Use	Reusable logic	Event-based action
+Q2: Can we pass parameters to trigger?
+
+👉 ❌ No (automatic execution)
+
+Q3: When are triggers used?
+
+👉 Logging, validation, automation
+
+Quick Revision (1 Minute)
+Stored Procedure → reusable SQL function
+Trigger → automatic execution
+
+Procedure → manual call
+Trigger → event-based call
+What You Learned Today
+
+✔ What stored procedures are
+✔ How to reuse SQL logic
+✔ What triggers are
+✔ How databases automate tasks
