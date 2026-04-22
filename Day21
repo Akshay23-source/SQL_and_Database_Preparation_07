@@ -1,0 +1,199 @@
+Day 21 – Concurrency, Isolation & Deadlocks (5 April 2026)
+
+Today we learn how databases handle multiple users at the same time 🔥
+This is super important for companies like Amazon, Google, and Microsoft.
+
+🔥 Today’s Concepts
+
+1️⃣ Transaction Isolation Levels
+2️⃣ Deadlocks
+
+1️⃣ Isolation Levels
+First Problem: Why do we need isolation?
+
+Imagine two ATMs updating the same bank account at once.
+
+Balance = ₹5000
+
+ATM A withdraws ₹1000
+ATM B withdraws ₹2000
+
+If both read old balance at same time:
+
+Both see 5000
+
+A writes 4000
+B writes 3000
+
+Final becomes wrong ❌
+
+Should have been ₹2000.
+
+Isolation prevents this.
+Mental Model 🧠
+Isolation = Transactions should not interfere
+Common Problems
+Dirty Read
+
+👉 Reading data another transaction has not committed yet.
+
+Example:
+
+Transaction A changes salary to 50,000 but hasn't committed.
+
+Transaction B reads it.
+
+Then A rolls back.
+
+B read fake data ❌
+
+Non-Repeatable Read
+
+Same query gives different answers inside same transaction.
+
+Read 1 → salary 50000
+Another transaction updates salary
+Read 2 → salary 55000
+
+Confusing.
+
+Phantom Read
+
+Rows appear/disappear between reads.
+
+Isolation Levels (Interview Favorite)
+🔹 Read Uncommitted
+
+Fastest
+Least safe
+
+Allows dirty reads.
+
+🔹 Read Committed
+
+Prevents dirty reads.
+
+Common default.
+
+🔹 Repeatable Read
+
+Prevents non-repeatable reads.
+
+🔹 Serializable
+
+Highest safety.
+
+Acts almost like transactions run one by one.
+
+Slow but safest.
+
+Easy Memory Trick
+Safety increases downward:
+
+Read Uncommitted
+Read Committed
+Repeatable Read
+Serializable
+
+Higher safety → less concurrency.
+
+Python Analogy 🧠
+
+Think of file locking:
+
+lock.acquire()
+update_balance()
+lock.release()
+
+Isolation is similar idea.
+
+2️⃣ Deadlocks
+Simple Idea
+
+A deadlock happens when two transactions wait on each other forever.
+
+Mental Model 🧠
+
+Two friends blocking each other in a narrow hallway.
+
+Nobody moves.
+
+Example
+
+Transaction A locks Table1 and wants Table2.
+
+Transaction B locks Table2 and wants Table1.
+
+A waits for B
+B waits for A
+
+Stuck forever
+
+Deadlock ❌
+
+Visual
+A holds Resource1 → wants Resource2
+
+B holds Resource2 → wants Resource1
+
+Cycle formed.
+
+Why It Happens
+
+Usually because:
+
+Different lock order
+Long transactions
+Too much contention
+How DB Solves It
+
+Databases detect deadlocks and kill one transaction.
+
+Victim transaction rolls back.
+
+Preventing Deadlocks
+
+✔ Access resources in same order
+✔ Keep transactions short
+✔ Avoid unnecessary locks
+
+Python Analogy
+Thread1 locks A then B
+Thread2 locks B then A
+
+Classic deadlock.
+
+Memory Trick 🧠
+Deadlock = Circular waiting
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: What is deadlock?
+
+👉 Circular waiting between transactions.
+
+Q2: Highest isolation level?
+
+👉 Serializable
+
+Q3: Difference between concurrency and isolation?
+
+Concurrency → many users work together
+Isolation → they don't corrupt each other
+
+Quick Revision
+Isolation Levels:
+RU
+RC
+RR
+Serializable
+
+Deadlock:
+Circular waiting
+What You Learned Today
+
+✔ Why isolation levels exist
+✔ Dirty read, non-repeatable read, phantom read
+✔ What deadlock is
+✔ How databases prevent deadlocks
