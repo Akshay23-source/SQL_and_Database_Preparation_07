@@ -1,0 +1,212 @@
+Today we learn how databases are designed before coding begins 🔥
+This is a huge interview topic.
+
+🔥 Today’s Concepts
+
+1️⃣ ER Model (Entity Relationship Model)
+2️⃣ Cardinality (1:1, 1:M, M:N)
+
+1️⃣ ER Model
+Big Idea
+
+Before creating tables, we first model the real world.
+
+That model is called ER Model.
+
+ER Model = Blueprint of database
+
+Think of it like building a house:
+
+First blueprint
+Then construction
+
+Same with databases.
+
+Three Main Parts
+🔹 Entity
+
+An Entity is an object we store data about.
+
+Examples:
+
+Student
+Course
+Teacher
+Mental Model 🧠
+Entity = Noun
+
+If it feels like a “thing”, likely entity.
+
+🔹 Attributes
+
+Attributes are properties of entity.
+
+Student entity:
+
+Roll number
+Name
+Branch
+
+Like Python dictionary:
+
+student = {
+ "id":1,
+ "name":"Akshay",
+ "branch":"CSE"
+}
+
+Keys are attributes.
+
+🔹 Relationship
+
+How entities connect.
+
+Example:
+
+Student enrolls in Course
+
+That is relationship.
+
+Visual Idea
+Student ---- enrolls ---- Course
+Memory Trick
+Entity = thing
+
+Attribute = property
+
+Relationship = connection
+Real Example
+
+Entities:
+
+Student
+Course
+
+Attributes:
+
+Student:
+
+student_id
+name
+
+Course:
+
+course_id
+course_name
+
+Relationship:
+
+Student enrolls in Course
+
+Why ER Model Matters
+
+✔ Converts business idea into DB design
+✔ Avoids bad schemas
+✔ Frequently asked in interviews
+
+2️⃣ Cardinality
+
+Now we ask:
+
+👉 How many entities relate to how many?
+
+That is cardinality.
+
+🔹 One-to-One (1:1)
+
+One record matches one record.
+
+Example:
+
+Person ↔ Passport
+
+One person → one passport
+🔹 One-to-Many (1:M)
+
+Most common.
+
+Example:
+
+Department → Many Students
+
+One department
+Many students
+
+CSE has many students.
+
+🔹 Many-to-Many (M:N)
+
+Example:
+
+Students ↔ Courses
+
+One student takes many courses
+
+One course has many students
+
+Many-to-many.
+
+How Databases Handle Many-to-Many
+
+Using junction table:
+
+Enrollment
+
+student_id	course_id
+
+Solved.
+
+Python Mental Model 🧠
+
+One-to-many:
+
+department = {
+ "CSE":["Akshay","Rahul"]
+}
+
+Many-to-many:
+
+enrollments = [
+ {"student":1,"course":101},
+ {"student":1,"course":102}
+]
+Easy Memory Trick
+1:1  → one-one
+
+1:M → one-many
+
+M:N → many-many
+🔥 Placement Insight
+
+Very common questions:
+
+Q1: Difference entity vs attribute?
+
+Entity = object
+
+Attribute = property of object
+
+Q2: Most common relationship?
+
+👉 One-to-many
+
+Q3: How represent many-to-many in relational DB?
+
+👉 Use junction table.
+
+Quick Revision
+ER Model:
+Entity
+Attribute
+Relationship
+
+Cardinality:
+1:1
+1:M
+M:N
+What You Learned Today
+
+✔ What ER modeling is
+✔ Entities, attributes, relationships
+✔ Cardinality types
+✔ How M:N is implemented
