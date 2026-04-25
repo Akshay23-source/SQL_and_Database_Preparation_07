@@ -1,0 +1,181 @@
+🔥 Today’s Concepts
+
+1️⃣ Set Operations (UNION, INTERSECT, EXCEPT)
+2️⃣ Join Interview Patterns
+
+1️⃣ Set Operations
+Big Idea
+
+Sometimes we combine results of multiple queries.
+
+That is where set operations come in.
+
+Think of math sets.
+
+🔹 UNION
+
+Combines results of two queries and removes duplicates.
+
+Example
+
+CSE students:
+
+SELECT name FROM cse_students
+UNION
+SELECT name FROM ece_students;
+
+If Akshay appears in both tables, UNION keeps only one.
+
+Mental Model 🧠
+UNION = merge + remove duplicates
+UNION ALL
+
+Keeps duplicates too.
+
+SELECT name FROM cse_students
+UNION ALL
+SELECT name FROM ece_students;
+
+Memory:
+
+UNION ALL = keep all
+Python Connection
+set(list1).union(set(list2))
+🔹 INTERSECT
+
+Common rows in both queries.
+
+SELECT name FROM cse_students
+INTERSECT
+SELECT name FROM ece_students;
+
+Only common names.
+
+Memory:
+
+INTERSECT = overlap only
+Python
+set(a).intersection(set(b))
+🔹 EXCEPT
+
+Rows in first query but not second.
+
+SELECT name FROM cse_students
+EXCEPT
+SELECT name FROM ece_students;
+
+Memory:
+
+EXCEPT = subtract set
+Important Rule ⚠️
+
+Queries combined with set operators should have:
+
+✔ Same number of columns
+✔ Compatible data types
+
+Easy Summary
+Operator	Meaning
+UNION	combine unique rows
+UNION ALL	combine all
+INTERSECT	common rows
+EXCEPT	first minus second
+2️⃣ Join Interview Patterns
+
+Now common interview tricks.
+
+Pattern 1
+Find unmatched rows
+
+Students with no enrollments.
+
+Use LEFT JOIN + NULL check.
+
+SELECT s.name
+FROM students s
+LEFT JOIN enrollments e
+ON s.id = e.student_id
+WHERE e.student_id IS NULL;
+Mental Model
+LEFT JOIN keeps all students
+
+NULL means no match
+
+Classic interview problem.
+
+Pattern 2
+Find duplicate rows
+SELECT email, COUNT(*)
+FROM users
+GROUP BY email
+HAVING COUNT(*) > 1;
+
+Very common.
+
+Pattern 3
+Second highest salary
+
+Classic famous interview question.
+
+SELECT MAX(salary)
+FROM employees
+WHERE salary <
+(
+ SELECT MAX(salary)
+ FROM employees
+);
+Mental Model
+Find highest
+
+Then find highest below that
+Pattern 4
+
+Employees earning above department average.
+
+SELECT e.name
+FROM employees e
+JOIN (
+SELECT dept, AVG(salary) avg_sal
+FROM employees
+GROUP BY dept
+) d
+ON e.dept=d.dept
+WHERE e.salary>d.avg_sal;
+
+Advanced but common.
+
+🔥 Placement Insight
+
+Very common questions:
+
+Q1 Difference UNION vs UNION ALL?
+
+UNION removes duplicates.
+
+UNION ALL keeps them.
+
+Q2 How find records with no match?
+
+LEFT JOIN + IS NULL
+
+Q3 How find second highest salary?
+
+Subquery (as above)
+
+Quick Revision
+UNION → merge
+
+INTERSECT → common
+
+EXCEPT → subtract
+
+Interview Patterns:
+No match → LEFT JOIN + NULL
+Duplicates → GROUP BY HAVING
+Second highest → subquery
+What You Learned Today
+
+✔ Set operations
+✔ UNION vs UNION ALL
+✔ Common join interview tricks
+✔ Classic SQL coding questions
