@@ -1,0 +1,405 @@
+
+
+## 🔥 Today’s Concepts
+
+1️⃣ **SQL Query Execution Order**
+2️⃣ **Query Optimization Basics**
+
+---
+
+# 1️⃣ SQL Query Execution Order
+
+## Big Idea
+
+When we write SQL:
+
+```sql id="z7htrd"
+SELECT name
+FROM students
+WHERE marks > 80
+ORDER BY name;
+```
+
+We READ it top → bottom.
+
+But database EXECUTES it differently.
+
+---
+
+## Mental Model 🧠
+
+```text id="6fbyha"
+SQL reading order ≠ SQL execution order
+```
+
+This is a famous interview point.
+
+---
+
+# Actual Execution Order
+
+```text id="v2twzv"
+1. FROM
+2. WHERE
+3. GROUP BY
+4. HAVING
+5. SELECT
+6. ORDER BY
+7. LIMIT
+```
+
+---
+
+# Step-by-Step Understanding
+
+---
+
+## 🔹 FROM
+
+First database finds the table.
+
+```sql id="9yz24j"
+FROM students
+```
+
+---
+
+## 🔹 WHERE
+
+Then filters rows.
+
+```sql id="g65f5u"
+WHERE marks > 80
+```
+
+---
+
+## 🔹 GROUP BY
+
+Groups rows if needed.
+
+---
+
+## 🔹 HAVING
+
+Filters groups.
+
+---
+
+## 🔹 SELECT
+
+Finally selects columns.
+
+---
+
+## 🔹 ORDER BY
+
+Sorts result.
+
+---
+
+## 🔹 LIMIT
+
+Restricts rows.
+
+---
+
+# Why This Matters
+
+Suppose:
+
+```sql id="7ixp6p"
+SELECT AVG(marks)
+FROM students
+WHERE branch='CSE';
+```
+
+Database:
+
+1. Gets table
+2. Filters CSE students
+3. Calculates average
+
+Efficient.
+
+---
+
+## Memory Trick 🧠
+
+```text id="6ltqga"
+FROM → WHERE → GROUP → HAVING → SELECT → ORDER → LIMIT
+```
+
+---
+
+# Python Analogy 🧠
+
+Think:
+
+```python id="c8n4l2"
+filtered = [s for s in students if s["marks"] > 80]
+
+names = [s["name"] for s in filtered]
+
+sorted(names)
+```
+
+Filtering happens before selection.
+
+---
+
+# 2️⃣ Query Optimization Basics
+
+Now important real-world thinking.
+
+---
+
+## Big Idea
+
+Optimization means:
+
+```text id="mt9l5j"
+Get result using minimum time/resources
+```
+
+---
+
+# Why Optimization Matters
+
+Small data:
+
+```text id="9gbtqy"
+Slow query acceptable
+```
+
+Millions of rows:
+
+```text id="x0u6aa"
+Slow query = disaster ❌
+```
+
+---
+
+# Common Optimization Ideas
+
+---
+
+## 🔹 Use Indexes
+
+Without index:
+
+Database scans every row.
+
+```text id="nt8w3s"
+O(n)
+```
+
+With index:
+
+Fast lookup.
+
+---
+
+### Example
+
+```sql id="v4u5mv"
+CREATE INDEX idx_name ON students(name);
+```
+
+---
+
+## 🔹 Avoid SELECT *
+
+Bad:
+
+```sql id="78wz2n"
+SELECT * FROM students;
+```
+
+Why bad?
+
+* Fetches unnecessary columns
+* More memory
+* More network cost
+
+---
+
+Better:
+
+```sql id="vxgq2s"
+SELECT name, marks FROM students;
+```
+
+---
+
+## Mental Model
+
+```text id="cgw0h6"
+Take only what you need
+```
+
+---
+
+## 🔹 Filter Early
+
+Good:
+
+```sql id="k6s6kz"
+SELECT name
+FROM students
+WHERE branch='CSE';
+```
+
+Database filters first → less processing.
+
+---
+
+## 🔹 Use LIMIT When Needed
+
+Bad:
+
+```sql id="o5y6k5"
+SELECT * FROM logs;
+```
+
+Huge data.
+
+Better:
+
+```sql id="h5d74v"
+SELECT * FROM logs LIMIT 10;
+```
+
+---
+
+## 🔹 Avoid Unnecessary Joins
+
+More joins = more processing.
+
+Only join needed tables.
+
+---
+
+# Full Table Scan
+
+## Simple Idea
+
+Database checks every row.
+
+Very slow on large data.
+
+---
+
+## Happens When
+
+* No index
+* Bad filtering
+* Function on indexed column
+
+---
+
+## Example
+
+Bad:
+
+```sql id="lfjzwj"
+WHERE YEAR(date)=2025
+```
+
+May ignore index.
+
+Better:
+
+```sql id="8emc7z"
+WHERE date BETWEEN '2025-01-01' AND '2025-12-31'
+```
+
+---
+
+# Query Execution Plan
+
+Databases internally create a plan:
+
+```text id="1j8mb3"
+How to access table
+Which index to use
+Join order
+Filtering strategy
+```
+
+Interviewers love this topic.
+
+---
+
+# Memory Tricks 🧠
+
+```text id="evr4np"
+Optimization = less work
+
+Indexes = shortcuts
+
+SELECT * = usually bad
+```
+
+---
+
+# 🔥 Placement Insight
+
+Very common questions:
+
+---
+
+### Q1: SQL execution order?
+
+👉 FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT
+
+---
+
+### Q2: Why avoid SELECT *?
+
+👉 Extra unnecessary data retrieval.
+
+---
+
+### Q3: What is full table scan?
+
+👉 Checking every row in table.
+
+---
+
+### Q4: Why indexes improve speed?
+
+👉 Avoid scanning all rows.
+
+---
+
+# Quick Revision
+
+```text id="g5aqob"
+Execution:
+FROM
+WHERE
+GROUP BY
+HAVING
+SELECT
+ORDER BY
+LIMIT
+
+Optimization:
+Indexes
+Avoid SELECT *
+Filter early
+Limit rows
+```
+
+---
+
+# What You Learned Today
+
+✔ SQL execution order
+✔ How databases process queries
+✔ Optimization basics
+✔ Why indexes matter
+✔ How to write efficient SQL
+
+
