@@ -1,0 +1,342 @@
+
+
+Today we learn **advanced filtering logic** 🔥
+These are very common in:
+
+* SQL interviews
+* Coding rounds
+* Real analytics queries
+
+---
+
+## 🔥 Today’s Concepts
+
+1️⃣ **Correlated Subqueries**
+2️⃣ **EXISTS vs IN**
+
+---
+
+# 1️⃣ Correlated Subqueries
+
+## Big Idea
+
+A correlated subquery is a subquery that depends on the outer query.
+
+👉 Normal subquery runs once.
+👉 Correlated subquery runs for EACH row.
+
+---
+
+## Mental Model 🧠
+
+```text id="e1e3p6"
+Normal subquery:
+Run once
+
+Correlated subquery:
+Run repeatedly for every row
+```
+
+---
+
+# Example Table
+
+## Employees
+
+| id | name   | dept | salary |
+| -- | ------ | ---- | ------ |
+| 1  | Akshay | CSE  | 50000  |
+| 2  | Rahul  | CSE  | 60000  |
+| 3  | Neha   | ECE  | 70000  |
+
+---
+
+# Problem
+
+👉 Find employees earning ABOVE department average.
+
+---
+
+# SQL Solution
+
+```sql id="n0x2f0"
+SELECT e1.name, e1.salary, e1.dept
+FROM employees e1
+WHERE e1.salary >
+(
+ SELECT AVG(e2.salary)
+ FROM employees e2
+ WHERE e1.dept = e2.dept
+);
+```
+
+---
+
+# Step-by-Step Thinking 🧠
+
+For Akshay:
+
+* Find avg salary of CSE
+* Compare Akshay salary
+
+For Rahul:
+
+* Again find avg of CSE
+* Compare Rahul salary
+
+For Neha:
+
+* Find avg of ECE
+
+Subquery depends on current row.
+
+---
+
+# Why Called “Correlated”
+
+Because:
+
+```text id="t1s0hz"
+Inner query references outer query
+```
+
+Here:
+
+```sql id="lm3o2n"
+e1.dept = e2.dept
+```
+
+---
+
+# Python Analogy 🧠
+
+```python id="1m0t0z"
+for e1 in employees:
+
+    dept_salaries = [
+        e2["salary"]
+        for e2 in employees
+        if e2["dept"] == e1["dept"]
+    ]
+
+    avg_sal = sum(dept_salaries) / len(dept_salaries)
+
+    if e1["salary"] > avg_sal:
+        print(e1["name"])
+```
+
+Nested repeated logic.
+
+---
+
+# Memory Trick 🧠
+
+```text id="y1st7s"
+Correlated Subquery = inner query depends on outer row
+```
+
+---
+
+# Performance Note ⚠️
+
+Correlated subqueries can be slower because query runs repeatedly.
+
+Sometimes JOIN/window functions are faster.
+
+Interview favorite point.
+
+---
+
+# 2️⃣ EXISTS vs IN
+
+Very important interview topic.
+
+---
+
+# 🔹 IN
+
+Checks if value exists in a list/result.
+
+---
+
+## Example
+
+```sql id="3m5ycg"
+SELECT name
+FROM students
+WHERE id IN
+(
+ SELECT student_id
+ FROM enrollments
+);
+```
+
+---
+
+## Mental Model
+
+```text id="6mgoz9"
+IN = “Is value inside this set?”
+```
+
+---
+
+# 🔹 EXISTS
+
+Checks whether subquery returns ANY row.
+
+---
+
+## Example
+
+```sql id="i9wr8i"
+SELECT name
+FROM students s
+WHERE EXISTS
+(
+ SELECT 1
+ FROM enrollments e
+ WHERE s.id = e.student_id
+);
+```
+
+---
+
+# Mental Model
+
+```text id="i0ibz6"
+EXISTS = “Does matching row exist?”
+```
+
+---
+
+# Key Difference
+
+---
+
+## IN
+
+Database first creates whole result set.
+
+Then compares.
+
+---
+
+## EXISTS
+
+Stops immediately once match found.
+
+Usually faster for large datasets.
+
+---
+
+# Easy Comparison
+
+| Feature     | IN            | EXISTS                  |
+| ----------- | ------------- | ----------------------- |
+| Works on    | Values        | Rows                    |
+| Good for    | Small sets    | Large correlated checks |
+| Performance | Can be slower | Often faster            |
+
+---
+
+# Python Analogy 🧠
+
+## IN
+
+```python id="6j8owg"
+if student_id in valid_ids:
+```
+
+---
+
+## EXISTS
+
+```python id="g11d8s"
+found = False
+
+for e in enrollments:
+    if e["student_id"] == s["id"]:
+        found = True
+        break
+```
+
+Stops early.
+
+---
+
+# When EXISTS Shines
+
+Very useful when:
+
+* Checking relationships
+* Large tables
+* Correlated subqueries
+
+---
+
+# Memory Tricks 🧠
+
+```text id="r0ajkl"
+IN → compare values
+
+EXISTS → check row existence
+```
+
+---
+
+# 🔥 Placement Insight
+
+Very common questions:
+
+---
+
+### Q1: Difference normal vs correlated subquery?
+
+Normal → independent
+
+Correlated → depends on outer query
+
+---
+
+### Q2: EXISTS vs IN?
+
+EXISTS checks rows and can stop early.
+
+IN checks full set.
+
+---
+
+### Q3: Which is usually faster for large data?
+
+👉 EXISTS
+
+---
+
+# Quick Revision
+
+```text id="4cuvjc"
+Correlated subquery:
+Runs per row
+
+IN:
+Value comparison
+
+EXISTS:
+Row existence check
+```
+
+---
+
+# What You Learned Today
+
+✔ Correlated subqueries
+✔ Why they are different
+✔ EXISTS vs IN
+✔ Performance intuition
+
+---
+
+# Next Session (Day 27)
+
+
