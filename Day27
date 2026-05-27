@@ -1,0 +1,330 @@
+
+
+Today we learn **analytics-style SQL** 🔥
+These are heavily used in:
+
+* Dashboards
+* Finance systems
+* Data analytics
+* Product companies
+
+---
+
+## 🔥 Today’s Concepts
+
+1️⃣ **LEAD & LAG Functions**
+2️⃣ **Running Totals & Moving Averages**
+
+---
+
+# 1️⃣ LEAD & LAG
+
+These are **window functions**.
+
+They help compare rows with:
+
+* previous row
+* next row
+
+Without self joins.
+
+---
+
+# 🔹 LAG()
+
+## Big Idea
+
+Gets value from PREVIOUS row.
+
+---
+
+## Mental Model 🧠
+
+```text id="b8cbhr"
+LAG = look behind
+```
+
+---
+
+# Example Table
+
+| month | sales |
+| ----- | ----- |
+| Jan   | 100   |
+| Feb   | 150   |
+| Mar   | 120   |
+
+---
+
+# SQL Query
+
+```sql id="yc7o2q"
+SELECT month,
+sales,
+LAG(sales) OVER (ORDER BY month) AS prev_sales
+FROM sales_data;
+```
+
+---
+
+# Output
+
+| month | sales | prev_sales |
+| ----- | ----- | ---------- |
+| Jan   | 100   | NULL       |
+| Feb   | 150   | 100        |
+| Mar   | 120   | 150        |
+
+---
+
+## Why Useful
+
+Can compare:
+
+```text id="z1q5xv"
+Current month vs previous month
+```
+
+---
+
+# 🔹 LEAD()
+
+## Big Idea
+
+Gets value from NEXT row.
+
+---
+
+## Mental Model 🧠
+
+```text id="d7h6ig"
+LEAD = look ahead
+```
+
+---
+
+# Query
+
+```sql id="gn07l1"
+SELECT month,
+sales,
+LEAD(sales) OVER (ORDER BY month) AS next_sales
+FROM sales_data;
+```
+
+---
+
+# Output
+
+| month | sales | next_sales |
+| ----- | ----- | ---------- |
+| Jan   | 100   | 150        |
+| Feb   | 150   | 120        |
+| Mar   | 120   | NULL       |
+
+---
+
+# Python Analogy 🧠
+
+```python id="lg2f0y"
+for i in range(len(data)):
+
+    prev_val = data[i-1] if i > 0 else None
+
+    next_val = data[i+1] if i < len(data)-1 else None
+```
+
+---
+
+# Why LEAD/LAG Are Powerful
+
+Used for:
+
+* Trend analysis
+* Growth calculation
+* Time-series analytics
+
+---
+
+# Memory Trick 🧠
+
+```text id="m0h96u"
+LAG → previous
+
+LEAD → next
+```
+
+---
+
+# 2️⃣ Running Totals & Moving Average
+
+Now powerful analytics patterns.
+
+---
+
+# 🔹 Running Total
+
+## Big Idea
+
+Cumulative sum over rows.
+
+---
+
+# Example
+
+| day | sales |
+| --- | ----- |
+| 1   | 100   |
+| 2   | 200   |
+| 3   | 150   |
+
+---
+
+# Query
+
+```sql id="0hn2a9"
+SELECT day,
+sales,
+SUM(sales) OVER (ORDER BY day) AS running_total
+FROM sales_data;
+```
+
+---
+
+# Output
+
+| day | sales | running_total |
+| --- | ----- | ------------- |
+| 1   | 100   | 100           |
+| 2   | 200   | 300           |
+| 3   | 150   | 450           |
+
+---
+
+## Mental Model 🧠
+
+```text id="jgnn3i"
+Keep adding as rows move forward
+```
+
+---
+
+# Python Analogy
+
+```python id="phj3xu"
+total = 0
+
+for row in data:
+    total += row["sales"]
+```
+
+---
+
+# 🔹 Moving Average
+
+Average over nearby rows.
+
+Used heavily in finance.
+
+---
+
+# Query
+
+```sql id="a5x0nf"
+SELECT day,
+sales,
+AVG(sales) OVER (
+ORDER BY day
+ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+) AS moving_avg
+FROM sales_data;
+```
+
+---
+
+# Meaning
+
+```text id="3h8k7o"
+Take current row
++ previous 2 rows
+Compute average
+```
+
+---
+
+# Why Useful
+
+Used for:
+
+* Stock analysis
+* Sales trends
+* Smoothing noisy data
+
+---
+
+# Important OVER() Understanding
+
+```text id="vw12gc"
+OVER() defines the window
+```
+
+Examples:
+
+* ordering
+* partitioning
+* range of rows
+
+---
+
+# 🔥 Placement Insight
+
+Very common questions:
+
+---
+
+### Q1: Difference LEAD vs LAG?
+
+LEAD → next row
+
+LAG → previous row
+
+---
+
+### Q2: What is running total?
+
+Cumulative sum.
+
+---
+
+### Q3: Why window functions powerful?
+
+Because they:
+
+* keep original rows
+* add analytics calculations
+
+---
+
+# Quick Revision
+
+```text id="q7lsb4"
+LAG → previous row
+
+LEAD → next row
+
+Running Total → cumulative sum
+
+Moving Average → average over nearby rows
+```
+
+---
+
+# What You Learned Today
+
+✔ LEAD & LAG
+✔ Running totals
+✔ Moving averages
+✔ Advanced analytics SQL thinking
+
+
+
