@@ -1,0 +1,364 @@
+
+Today we learn how databases scale to handle **millions and billions of users** 🔥
+These are modern system-design concepts used by companies like Netflix, Amazon, and Instagram.
+
+---
+
+## 🔥 Today’s Concepts
+
+1️⃣ **Database Partitioning**
+2️⃣ **Sharding & Replication**
+
+---
+
+# 1️⃣ Database Partitioning
+
+# Big Idea
+
+Partitioning means:
+
+```text id="m5t8i3"
+Split one huge table into smaller parts
+```
+
+But logically it still feels like one table.
+
+---
+
+# Mental Model 🧠
+
+Imagine a huge library.
+
+Without partitioning:
+
+```text id="8g9y7j"
+All books in one giant room ❌
+```
+
+Hard to search.
+
+With partitioning:
+
+```text id="ik6r1m"
+Books split by category/floor ✅
+```
+
+Much faster.
+
+---
+
+# Why Partitioning is Needed
+
+Suppose table has:
+
+```text id="k0j0we"
+1 billion rows
+```
+
+Searching entire table is slow.
+
+Partitioning reduces search area.
+
+---
+
+# Types of Partitioning
+
+---
+
+## 🔹 Range Partitioning
+
+Split by ranges.
+
+Example:
+
+```text id="d6j4q8"
+2023 data → Partition A
+2024 data → Partition B
+2025 data → Partition C
+```
+
+Very common.
+
+---
+
+## 🔹 List Partitioning
+
+Split by categories.
+
+Example:
+
+```text id="dlfz0o"
+CSE students → one partition
+ECE students → another
+```
+
+---
+
+## 🔹 Hash Partitioning
+
+Database automatically distributes rows using hash function.
+
+Used for balancing load.
+
+---
+
+# Example Query Benefit
+
+Without partitioning:
+
+```text id="9m3u6f"
+Scan all years
+```
+
+With partitioning:
+
+```text id="83d5u6"
+Only scan 2025 partition
+```
+
+Huge speed improvement.
+
+---
+
+# Python Analogy 🧠
+
+Without partitioning:
+
+```python id="b98k8m"
+all_data = huge_list
+```
+
+With partitioning:
+
+```python id="d72g2w"
+data_2024 = []
+data_2025 = []
+```
+
+Search smaller lists.
+
+---
+
+# Memory Trick 🧠
+
+```text id="0b2zme"
+Partitioning = divide one huge table
+```
+
+---
+
+# 2️⃣ Sharding & Replication
+
+Now scaling across multiple machines.
+
+---
+
+# 🔹 Sharding
+
+## Big Idea
+
+Sharding means:
+
+```text id="j3h8z6"
+Split database across multiple servers
+```
+
+---
+
+# Mental Model 🧠
+
+One shop cannot handle all customers.
+
+Open multiple branches.
+
+---
+
+# Example
+
+Server 1:
+
+```text id="v4go6j"
+Users A–M
+```
+
+Server 2:
+
+```text id="q1e6zn"
+Users N–Z
+```
+
+Load distributed.
+
+---
+
+# Why Sharding Helps
+
+✔ Handles massive traffic
+✔ Improves scalability
+✔ Reduces server load
+
+---
+
+# Challenge ⚠️
+
+Queries across shards become harder.
+
+Example:
+
+* joins
+* transactions
+
+More complex.
+
+---
+
+# Python Analogy
+
+```python id="gh0pxz"
+server1_users = [...]
+server2_users = [...]
+```
+
+Data distributed.
+
+---
+
+# Memory Trick 🧠
+
+```text id="l8n8b0"
+Sharding = split across servers
+```
+
+---
+
+# 🔹 Replication
+
+## Big Idea
+
+Replication means:
+
+```text id="v69u9u"
+Copy same database to multiple servers
+```
+
+---
+
+# Why?
+
+If one server crashes:
+
+```text id="0t4s6n"
+Another copy still available ✅
+```
+
+Improves reliability.
+
+---
+
+# Types
+
+---
+
+## Primary-Replica
+
+Primary:
+
+```text id="38avdi"
+Handles writes
+```
+
+Replicas:
+
+```text id="7e6b4e"
+Handle reads
+```
+
+Very common architecture.
+
+---
+
+# Benefits
+
+✔ High availability
+✔ Faster reads
+✔ Backup safety
+
+---
+
+# Problem ⚠️
+
+Replication delay can occur.
+
+Replica may not instantly update.
+
+---
+
+# Sharding vs Replication
+
+| Feature | Sharding         | Replication |
+| ------- | ---------------- | ----------- |
+| Goal    | Scale data       | Copy data   |
+| Data    | Different pieces | Same copy   |
+| Benefit | Scalability      | Reliability |
+
+---
+
+# Easy Visual
+
+```text id="h9dd4j"
+Sharding:
+Different data on different servers
+
+Replication:
+Same data copied everywhere
+```
+
+---
+
+# 🔥 Placement Insight
+
+Very common questions:
+
+---
+
+### Q1: Difference partitioning vs sharding?
+
+Partitioning:
+Within one database system.
+
+Sharding:
+Across multiple servers.
+
+---
+
+### Q2: Why replication needed?
+
+Fault tolerance and faster reads.
+
+---
+
+### Q3: Biggest challenge in sharding?
+
+Cross-shard operations.
+
+---
+
+# Quick Revision
+
+```text id="h61nmr"
+Partitioning → split table
+
+Sharding → split across servers
+
+Replication → copy database
+```
+
+---
+
+# What You Learned Today
+
+✔ Partitioning concepts
+✔ Sharding architecture
+✔ Replication basics
+✔ How modern databases scale
+
