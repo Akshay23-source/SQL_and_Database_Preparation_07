@@ -1,0 +1,402 @@
+
+
+Today we learn a **very common placement interview topic** 🔥
+
+Interviewers often ask:
+
+👉 *"When would you use SQL and when would you use NoSQL?"*
+
+Understanding this properly is more important than memorizing definitions.
+
+---
+
+## 🔥 Today's Concepts
+
+1️⃣ **SQL vs NoSQL**
+2️⃣ **MongoDB Basics**
+
+---
+
+# 1️⃣ SQL vs NoSQL
+
+---
+
+## First Understand the Problem
+
+Imagine you are building a **college management system**.
+
+You have:
+
+* Students
+* Courses
+* Faculty
+* Attendance
+
+Everything is highly structured.
+
+Example:
+
+| id | name   | branch |
+| -- | ------ | ------ |
+| 1  | Akshay | CSE    |
+
+This is perfect for SQL.
+
+---
+
+Now imagine you're building a social media app.
+
+User 1:
+
+```json
+{
+  "name":"Akshay",
+  "posts":50,
+  "followers":200
+}
+```
+
+User 2:
+
+```json
+{
+  "name":"Rahul",
+  "followers":500
+}
+```
+
+Different users may have different fields.
+
+Rigid tables become difficult.
+
+This is where NoSQL helps.
+
+---
+
+# What is SQL Database?
+
+Examples:
+
+* MySQL
+* PostgreSQL
+* Oracle Database
+
+Stores data in:
+
+```text
+Tables
+Rows
+Columns
+```
+
+---
+
+## Mental Model 🧠
+
+```text
+SQL = Excel sheets with relationships
+```
+
+---
+
+# What is NoSQL Database?
+
+Examples:
+
+* MongoDB
+* Cassandra
+
+Stores data differently:
+
+* Documents
+* Key-value pairs
+* Graphs
+* Columns
+
+---
+
+## Mental Model 🧠
+
+```text
+NoSQL = Flexible JSON storage
+```
+
+---
+
+# Key Difference
+
+| Feature       | SQL          | NoSQL           |
+| ------------- | ------------ | --------------- |
+| Structure     | Fixed schema | Flexible schema |
+| Storage       | Tables       | Documents       |
+| Relationships | Strong       | Usually weaker  |
+| Scaling       | Vertical     | Horizontal      |
+| Joins         | Excellent    | Limited         |
+| Flexibility   | Less         | More            |
+
+---
+
+# Easy Interview Rule
+
+Use SQL when:
+
+✔ Data is structured
+✔ Relationships are important
+✔ Consistency is critical
+
+Examples:
+
+* Banking
+* College systems
+* ERP systems
+
+---
+
+Use NoSQL when:
+
+✔ Huge scale
+✔ Flexible data
+✔ Rapid changes
+
+Examples:
+
+* Social media
+* Chat applications
+* Product catalogs
+
+---
+
+# Memory Trick 🧠
+
+```text
+SQL = Structure First
+
+NoSQL = Flexibility First
+```
+
+---
+
+# 2️⃣ MongoDB Basics
+
+MongoDB is the most popular NoSQL database.
+
+---
+
+# Mental Model
+
+SQL:
+
+```text
+Database
+ → Table
+   → Row
+```
+
+MongoDB:
+
+```text
+Database
+ → Collection
+   → Document
+```
+
+---
+
+# SQL Example
+
+Table:
+
+| id | name   | branch |
+| -- | ------ | ------ |
+| 1  | Akshay | CSE    |
+
+---
+
+# MongoDB Equivalent
+
+Document:
+
+```json
+{
+  "id":1,
+  "name":"Akshay",
+  "branch":"CSE"
+}
+```
+
+Looks like Python dictionary.
+
+---
+
+# Python Connection 🧠
+
+```python
+student = {
+    "id":1,
+    "name":"Akshay",
+    "branch":"CSE"
+}
+```
+
+MongoDB document is very similar.
+
+---
+
+# Collection
+
+A collection is like a SQL table.
+
+```text
+students collection
+```
+
+contains many documents.
+
+---
+
+# Basic MongoDB Operations
+
+---
+
+## Insert
+
+```javascript
+db.students.insertOne({
+ name:"Akshay",
+ branch:"CSE"
+})
+```
+
+---
+
+## Find
+
+```javascript
+db.students.find()
+```
+
+Equivalent to:
+
+```sql
+SELECT * FROM students;
+```
+
+---
+
+## Filter
+
+```javascript
+db.students.find({
+ branch:"CSE"
+})
+```
+
+Equivalent to:
+
+```sql
+SELECT * FROM students
+WHERE branch='CSE';
+```
+
+---
+
+# Why MongoDB Became Popular
+
+Because:
+
+✔ Flexible schema
+✔ JSON-like documents
+✔ Easy horizontal scaling
+✔ Good for rapidly changing applications
+
+---
+
+# Interview Insight 🔥
+
+### Q1: Difference between table and collection?
+
+SQL:
+
+```text
+Table
+```
+
+MongoDB:
+
+```text
+Collection
+```
+
+---
+
+### Q2: Difference between row and document?
+
+SQL:
+
+```text
+Row
+```
+
+MongoDB:
+
+```text
+Document
+```
+
+---
+
+### Q3: Which is better?
+
+Wrong question ❌
+
+Correct answer:
+
+```text
+Depends on use case
+```
+
+---
+
+# Quick Revision
+
+```text
+SQL:
+Table → Row → Column
+
+MongoDB:
+Collection → Document
+
+SQL = Structured
+
+NoSQL = Flexible
+```
+
+---
+
+# What You Learned Today
+
+✔ SQL vs NoSQL
+✔ When to use each
+✔ MongoDB fundamentals
+✔ Collections and Documents
+✔ MongoDB vs SQL mapping
+
+---
+
+# Current Progress
+
+```text
+Completed: Day 29
+
+Remaining Major Topics:
+~15–20 important topics
++
+Interview Problem Solving
++
+Mock SQL Interviews
+```
+
+You are now around **75–80% through the SQL/DBMS roadmap** and already have stronger fundamentals than many placement candidates.
+
+
+Whenever you type **“today’s learning”**, I'll continue with **Day 30**. 🚀
