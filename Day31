@@ -1,0 +1,492 @@
+
+
+Today we learn how databases **protect data from unauthorized access** 🔒
+
+Imagine you're building a banking app. If every employee could view or modify every account, it would be a disaster.
+
+That's why databases have **security mechanisms**.
+
+---
+
+## 🔥 Today's Concepts
+
+1️⃣ **Database Security Basics**
+2️⃣ **Users, Roles & Permissions**
+
+---
+
+# 1️⃣ Database Security Basics
+
+## Big Idea
+
+Database security means:
+
+```text
+Protect data from:
+• Unauthorized access
+• Data leaks
+• Data modification
+• Data loss
+```
+
+---
+
+## Mental Model 🧠
+
+Think of a college.
+
+Not everyone can access everything.
+
+### Student
+
+Can:
+
+✔ View marks
+
+Cannot:
+
+❌ Change marks
+
+---
+
+### Teacher
+
+Can:
+
+✔ Update marks
+
+Cannot:
+
+❌ Access payroll data
+
+---
+
+### Principal
+
+Can:
+
+✔ Access everything
+
+---
+
+Databases work exactly like this.
+
+---
+
+# Why Security Matters
+
+Suppose table:
+
+| id | name   | salary |
+| -- | ------ | ------ |
+| 1  | Akshay | 50000  |
+
+If every employee can run:
+
+```sql
+SELECT * FROM employees;
+```
+
+Sensitive salary data becomes exposed.
+
+---
+
+# Security Goals
+
+---
+
+## 🔹 Confidentiality
+
+Only authorized people see data.
+
+---
+
+Example:
+
+```text
+HR → Salary Data ✔
+
+Student → Salary Data ❌
+```
+
+---
+
+## 🔹 Integrity
+
+Data remains correct.
+
+Nobody can modify it improperly.
+
+---
+
+Example:
+
+```text
+Marks = 90
+
+Unauthorized user changes to 100 ❌
+```
+
+---
+
+## 🔹 Availability
+
+Authorized users can access data when needed.
+
+---
+
+Memory Trick:
+
+```text
+CIA
+
+Confidentiality
+Integrity
+Availability
+```
+
+---
+
+# Common Security Threats
+
+---
+
+## SQL Injection
+
+Very famous interview topic.
+
+Bad code:
+
+```python
+query = "SELECT * FROM users WHERE name='" + user_input + "'"
+```
+
+Attacker enters:
+
+```text
+' OR '1'='1
+```
+
+Query becomes dangerous.
+
+---
+
+Solution:
+
+```python
+Use parameterized queries
+```
+
+Never concatenate user input directly.
+
+---
+
+# 2️⃣ Users, Roles & Permissions
+
+Now let's understand how databases control access.
+
+---
+
+# 🔹 User
+
+A user is an account that connects to the database.
+
+Example:
+
+```text
+admin
+teacher
+student
+```
+
+---
+
+# Mental Model
+
+```text
+User = Individual person/account
+```
+
+---
+
+# 🔹 Permission (Privilege)
+
+Permission defines what a user can do.
+
+Examples:
+
+```text
+SELECT
+INSERT
+UPDATE
+DELETE
+```
+
+---
+
+### Example
+
+Teacher:
+
+```text
+SELECT ✔
+UPDATE ✔
+DELETE ❌
+```
+
+---
+
+# 🔹 Role
+
+Role = Collection of permissions.
+
+Instead of assigning permissions one-by-one.
+
+---
+
+Example:
+
+### Student Role
+
+```text
+SELECT ✔
+```
+
+---
+
+### Teacher Role
+
+```text
+SELECT ✔
+UPDATE ✔
+```
+
+---
+
+Then assign role to users.
+
+---
+
+# Why Roles Are Useful
+
+Without roles:
+
+```text
+100 users
+100 permission assignments
+```
+
+Messy ❌
+
+---
+
+With roles:
+
+```text
+Teacher Role
+
+Assign to 100 teachers
+```
+
+Easy ✅
+
+---
+
+# SQL Commands
+
+---
+
+## Create User
+
+```sql
+CREATE USER akshay;
+```
+
+---
+
+## Grant Permission
+
+```sql
+GRANT SELECT
+ON students
+TO akshay;
+```
+
+---
+
+Meaning:
+
+```text
+Akshay can read students table
+```
+
+---
+
+## Revoke Permission
+
+```sql
+REVOKE SELECT
+ON students
+FROM akshay;
+```
+
+---
+
+Meaning:
+
+```text
+Remove permission
+```
+
+---
+
+# Python Analogy 🧠
+
+Think:
+
+```python
+user = {
+    "name":"Akshay",
+    "permissions":["SELECT"]
+}
+```
+
+Database does something similar internally.
+
+---
+
+# Principle of Least Privilege
+
+Very important interview concept.
+
+Rule:
+
+```text
+Give minimum permissions required
+```
+
+---
+
+Bad:
+
+```text
+Student gets admin access ❌
+```
+
+---
+
+Good:
+
+```text
+Student gets read-only access ✔
+```
+
+---
+
+# Memory Trick 🧠
+
+```text
+User = Person
+
+Permission = Action
+
+Role = Group of permissions
+```
+
+---
+
+# 🔥 Placement Insight
+
+### Q1: Difference between User and Role?
+
+User → Individual account
+
+Role → Collection of permissions
+
+---
+
+### Q2: What is GRANT?
+
+Give permission.
+
+---
+
+### Q3: What is REVOKE?
+
+Remove permission.
+
+---
+
+### Q4: What is Principle of Least Privilege?
+
+Give only minimum required access.
+
+---
+
+### Q5: What is SQL Injection?
+
+Attack caused by unsafe query construction.
+
+---
+
+# Quick Revision
+
+```text
+Security Goals:
+CIA
+
+Confidentiality
+Integrity
+Availability
+
+User → account
+
+Role → permission group
+
+GRANT → give access
+
+REVOKE → remove access
+```
+
+---
+
+# What You Learned Today
+
+✔ Database security fundamentals
+✔ CIA triad
+✔ SQL Injection basics
+✔ Users and roles
+✔ GRANT and REVOKE
+✔ Principle of Least Privilege
+
+---
+
+# Current Progress
+
+```text
+Day 31 Completed
+
+Roadmap Completion:
+~85%
+```
+
+You now have a strong foundation in:
+
+* SQL
+* DBMS
+* Joins
+* Transactions
+* Optimization
+* Distributed Databases
+* Security
+
+---
+
+# Next Session (Day 32)
+
+Tomorrow we will learn:
+
+1️⃣ **Database Backup & Recovery**
+2️⃣ **Logs, Checkpoints & Crash Recovery**
+
+
