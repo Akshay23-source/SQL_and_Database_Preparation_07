@@ -1,0 +1,592 @@
+
+
+Today we learn how databases **recover from failures** 🔥
+
+Imagine a bank database crashes at 2 PM.
+
+Question:
+
+```text
+How does the database recover all data?
+```
+
+This is exactly what today's topics answer.
+
+---
+
+## 🔥 Today's Concepts
+
+1️⃣ **Database Backup & Recovery**
+2️⃣ **Logs, Checkpoints & Crash Recovery**
+
+---
+
+# 1️⃣ Database Backup & Recovery
+
+## Big Idea
+
+A backup is simply:
+
+```text
+A copy of database data
+```
+
+used to restore information if something goes wrong.
+
+---
+
+## Mental Model 🧠
+
+Think about your phone.
+
+You keep:
+
+```text
+Google Drive Backup
+```
+
+Why?
+
+Because phones can be lost.
+
+Same idea for databases.
+
+---
+
+# Why Backups Are Needed
+
+Problems happen:
+
+* Server crash
+* Hard disk failure
+* Accidental deletion
+* Cyber attacks
+* Software bugs
+
+Without backup:
+
+```text
+Data permanently lost ❌
+```
+
+With backup:
+
+```text
+Restore data ✅
+```
+
+---
+
+# Types of Backup
+
+---
+
+## 🔹 Full Backup
+
+Copies entire database.
+
+---
+
+### Example
+
+```text
+Students
+Courses
+Faculty
+Attendance
+
+Everything copied
+```
+
+---
+
+### Advantage
+
+Easy recovery.
+
+---
+
+### Disadvantage
+
+Large storage.
+
+Slow.
+
+---
+
+## Mental Model
+
+```text
+Full Backup = Full photocopy of book
+```
+
+---
+
+# 🔹 Incremental Backup
+
+Only changes since last backup.
+
+---
+
+Example:
+
+Monday:
+
+```text
+1000 records
+```
+
+Tuesday:
+
+```text
+10 new records
+```
+
+Incremental backup stores only:
+
+```text
+10 new records
+```
+
+---
+
+### Advantage
+
+Fast.
+
+Small storage.
+
+---
+
+### Disadvantage
+
+Recovery more complex.
+
+---
+
+## Mental Model
+
+```text
+Incremental Backup = Save only changes
+```
+
+---
+
+# 🔹 Differential Backup
+
+Stores changes since last FULL backup.
+
+---
+
+Example:
+
+Full backup Monday.
+
+Tuesday:
+
+```text
+10 records changed
+```
+
+Wednesday:
+
+```text
+20 records changed
+```
+
+Wednesday differential contains:
+
+```text
+30 total changes
+```
+
+since Monday.
+
+---
+
+# Easy Comparison
+
+| Type         | Stores                         |
+| ------------ | ------------------------------ |
+| Full         | Everything                     |
+| Incremental  | Changes since last backup      |
+| Differential | Changes since last full backup |
+
+---
+
+# Recovery
+
+Recovery means:
+
+```text
+Restore database after failure
+```
+
+---
+
+Example:
+
+```text
+Database crashes
+
+Restore backup
+
+Continue work
+```
+
+---
+
+# Memory Trick 🧠
+
+```text
+Backup = Save copy
+
+Recovery = Restore copy
+```
+
+---
+
+# 2️⃣ Logs, Checkpoints & Crash Recovery
+
+Now the interesting part.
+
+---
+
+# Problem
+
+Suppose:
+
+Transaction:
+
+```text
+A → -1000
+B → +1000
+```
+
+Database crashes after first step.
+
+What now?
+
+---
+
+Need a way to recover.
+
+---
+
+# 🔹 Log File
+
+A log is a record of database actions.
+
+---
+
+Example:
+
+```text
+Transaction T1
+
+Old balance = 5000
+
+New balance = 4000
+```
+
+Stored in log.
+
+---
+
+## Mental Model
+
+```text
+Log = Database diary
+```
+
+Every important action recorded.
+
+---
+
+# Why Logs Matter
+
+After crash:
+
+Database reads log.
+
+Determines:
+
+```text
+What succeeded?
+
+What failed?
+```
+
+---
+
+# Write-Ahead Logging (WAL)
+
+Very important interview concept.
+
+Rule:
+
+```text
+Write log first
+Then update database
+```
+
+---
+
+Why?
+
+Even if database crashes:
+
+```text
+Log still exists
+```
+
+Recovery possible.
+
+---
+
+## Memory Trick
+
+```text
+WAL
+
+Write log
+Before data
+```
+
+---
+
+# 🔹 Checkpoint
+
+Problem:
+
+Imagine reading millions of log entries.
+
+Slow.
+
+---
+
+Solution:
+
+Checkpoint.
+
+---
+
+## What is Checkpoint?
+
+Database periodically saves a stable state.
+
+---
+
+Example:
+
+```text
+Checkpoint at 1 PM
+```
+
+Crash at:
+
+```text
+1:05 PM
+```
+
+Need to process logs only after 1 PM.
+
+---
+
+Much faster.
+
+---
+
+## Mental Model 🧠
+
+```text
+Checkpoint = Save game progress
+```
+
+Instead of restarting game from beginning.
+
+---
+
+# 🔹 Crash Recovery
+
+After crash:
+
+Database performs:
+
+---
+
+## REDO
+
+Repeat committed transactions.
+
+---
+
+Example:
+
+Transaction completed.
+
+But data not fully written.
+
+REDO it.
+
+---
+
+## UNDO
+
+Reverse incomplete transactions.
+
+---
+
+Example:
+
+Transaction half completed.
+
+Remove its effects.
+
+---
+
+# Mental Model
+
+```text
+REDO = Do again
+
+UNDO = Reverse
+```
+
+---
+
+# Python Analogy 🧠
+
+Imagine:
+
+```python
+log = [
+  ("balance",5000,4000)
+]
+```
+
+Crash happens.
+
+Database can:
+
+```text
+UNDO
+or
+REDO
+```
+
+using log information.
+
+---
+
+# Easy Recovery Flow
+
+```text
+Crash
+
+↓
+
+Read Logs
+
+↓
+
+UNDO incomplete transactions
+
+↓
+
+REDO committed transactions
+
+↓
+
+Database restored
+```
+
+---
+
+# 🔥 Placement Insight
+
+### Q1: Why backups needed?
+
+To recover from failures.
+
+---
+
+### Q2: Difference Full vs Incremental Backup?
+
+Full = everything.
+
+Incremental = only changes.
+
+---
+
+### Q3: What is WAL?
+
+Write log before writing actual data.
+
+---
+
+### Q4: What is checkpoint?
+
+Saved stable state used for faster recovery.
+
+---
+
+### Q5: Difference REDO and UNDO?
+
+REDO = repeat committed work.
+
+UNDO = reverse incomplete work.
+
+---
+
+# Quick Revision
+
+```text
+Backup → save copy
+
+Recovery → restore
+
+Log → database diary
+
+WAL → write log first
+
+Checkpoint → save progress
+
+REDO → repeat
+
+UNDO → reverse
+```
+
+---
+
+# What You Learned Today
+
+✔ Database backup concepts
+✔ Full, Incremental, Differential backups
+✔ Logs and WAL
+✔ Checkpoints
+✔ REDO and UNDO recovery
+
+---
+
+# Current Progress
+
+```text
+Day 32 Completed
+
+Roadmap Completion:
+~88%
+```
+
+You now understand:
+
+* SQL
+* DBMS
+* Transactions
+* Security
+* Distributed Databases
+* Recovery Systems
+
+These are major placement interview areas.
+
+
