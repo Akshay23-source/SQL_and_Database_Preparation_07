@@ -1,0 +1,438 @@
+# 📅 SQL & Database Placement Preparation
+
+## **Day 33 – Functional Dependency & BCNF (17 April 2026)**
+
+Today we learn the concepts that are the **real foundation behind normalization** 🔥
+
+Most students memorize 1NF, 2NF, 3NF.
+But interviewers often ask:
+
+👉 **"Why do we normalize tables?"**
+
+The answer starts with **Functional Dependency**.
+
+---
+
+## 🔥 Today's Concepts
+
+1️⃣ **Functional Dependency (FD)**
+2️⃣ **BCNF (Boyce-Codd Normal Form)**
+
+---
+
+# 1️⃣ Functional Dependency (FD)
+
+## Big Idea
+
+A Functional Dependency describes a relationship between columns.
+
+It answers:
+
+```text id="0b9k7v"
+If I know X,
+can I determine Y?
+```
+
+---
+
+## Real-World Example 🧠
+
+Think about a student.
+
+| student_id | name   |
+| ---------- | ------ |
+| 101        | Akshay |
+| 102        | Rahul  |
+
+If someone gives you:
+
+```text id="0mr3eu"
+student_id = 101
+```
+
+Can you find the student's name?
+
+✔ Yes
+
+Therefore:
+
+```text id="s5f0wo"
+student_id → name
+```
+
+This is a Functional Dependency.
+
+---
+
+# Meaning of Arrow (→)
+
+```text id="zykw05"
+X → Y
+```
+
+means:
+
+```text id="mjhh0l"
+X determines Y
+```
+
+---
+
+## More Examples
+
+### Aadhaar Number
+
+```text id="2j0yyq"
+Aadhaar → Person
+```
+
+Because one Aadhaar identifies exactly one person.
+
+---
+
+### Employee ID
+
+```text id="0jql4w"
+Employee_ID → Employee_Name
+```
+
+---
+
+# What is NOT a Functional Dependency?
+
+Suppose:
+
+| Branch | Student |
+| ------ | ------- |
+| CSE    | Akshay  |
+| CSE    | Rahul   |
+
+Can branch determine student?
+
+❌ No
+
+Because:
+
+```text id="7ewxg4"
+CSE → many students
+```
+
+Not unique.
+
+---
+
+# Mental Model 🧠
+
+Think:
+
+```text id="q3r7bx"
+Primary Key determines everything else
+```
+
+Example:
+
+| id | name | branch |
+| -- | ---- | ------ |
+
+```text id="9n8m3z"
+id → name
+id → branch
+```
+
+---
+
+# Why Functional Dependency Matters
+
+Normalization is based on identifying:
+
+✔ Good dependencies
+
+❌ Bad dependencies
+
+---
+
+# Python Connection 🧠
+
+```python id="8xw2aj"
+student = {
+    101: "Akshay",
+    102: "Rahul"
+}
+```
+
+Knowing key:
+
+```python id="m7d7yk"
+101
+```
+
+immediately gives:
+
+```python id="v6n4r6"
+"Akshay"
+```
+
+That's FD.
+
+---
+
+# Memory Trick 🧠
+
+```text id="4g3i8j"
+X → Y
+
+Knowing X gives Y
+```
+
+---
+
+# 2️⃣ BCNF (Boyce-Codd Normal Form)
+
+Now the advanced normalization form.
+
+---
+
+## Why BCNF Exists
+
+Even after 3NF, some redundancy problems may remain.
+
+BCNF is a stricter version of 3NF.
+
+---
+
+# Simple Rule
+
+A table is in BCNF if:
+
+```text id="7x8m2k"
+Every determinant is a candidate key
+```
+
+---
+
+Don't panic 😄
+
+Let's understand.
+
+---
+
+# What is a Determinant?
+
+In:
+
+```text id="t9m6zy"
+X → Y
+```
+
+X is called determinant.
+
+---
+
+Example:
+
+```text id="g7m8wq"
+student_id → name
+```
+
+Determinant:
+
+```text id="b7x2qh"
+student_id
+```
+
+---
+
+# Example Problem
+
+Suppose:
+
+| Teacher | Course   | Room |
+| ------- | -------- | ---- |
+| John    | DBMS     | R101 |
+| John    | SQL      | R101 |
+| Mike    | Networks | R202 |
+
+Rule:
+
+```text id="g0n7kq"
+Teacher → Room
+```
+
+Because each teacher has one room.
+
+---
+
+Problem:
+
+Room information repeats.
+
+Redundancy exists.
+
+---
+
+BCNF says:
+
+```text id="um3xqv"
+Move teacher-room information
+into separate table
+```
+
+---
+
+### Teacher Table
+
+| Teacher | Room |
+| ------- | ---- |
+| John    | R101 |
+| Mike    | R202 |
+
+---
+
+### Course Table
+
+| Teacher | Course   |
+| ------- | -------- |
+| John    | DBMS     |
+| John    | SQL      |
+| Mike    | Networks |
+
+---
+
+Now redundancy reduced.
+
+---
+
+# Mental Model 🧠
+
+```text id="4pjq7w"
+BCNF = Stronger version of 3NF
+```
+
+---
+
+# Easy Comparison
+
+| Normal Form | Goal                                      |
+| ----------- | ----------------------------------------- |
+| 1NF         | Atomic values                             |
+| 2NF         | Remove partial dependency                 |
+| 3NF         | Remove transitive dependency              |
+| BCNF        | Every determinant must be a candidate key |
+
+---
+
+# Interview Shortcut 🚀
+
+If asked:
+
+### Difference between 3NF and BCNF?
+
+Answer:
+
+```text id="34r5gp"
+BCNF is stricter than 3NF.
+
+Every BCNF table is in 3NF,
+but every 3NF table is not in BCNF.
+```
+
+---
+
+# Memory Trick 🧠
+
+```text id="n8q2kr"
+FD = Relationship between columns
+
+BCNF = Strongest practical normalization
+```
+
+---
+
+# 🔥 Placement Insight
+
+### Q1: What is Functional Dependency?
+
+A relationship where one attribute determines another.
+
+Example:
+
+```text id="by0s3i"
+student_id → name
+```
+
+---
+
+### Q2: What is determinant?
+
+Left side of FD.
+
+Example:
+
+```text id="q6x8vp"
+X → Y
+
+X = determinant
+```
+
+---
+
+### Q3: What is BCNF?
+
+A stronger form of 3NF where every determinant is a candidate key.
+
+---
+
+### Q4: Which is stricter?
+
+👉 BCNF
+
+---
+
+# Quick Revision
+
+```text id="hq2a3k"
+FD:
+X → Y
+
+Knowing X gives Y
+
+BCNF:
+Every determinant
+must be candidate key
+```
+
+---
+
+# What You Learned Today
+
+✔ Functional Dependency
+✔ Determinants
+✔ Why normalization exists
+✔ BCNF
+✔ Difference between 3NF and BCNF
+
+---
+
+# Current Progress
+
+```text id="q0e8hy"
+Day 33 Completed
+
+Roadmap Completion:
+~90%
+```
+
+You now understand:
+
+* SQL
+* DBMS
+* Normalization
+* Transactions
+* Security
+* Recovery
+* Distributed Databases
+* Functional Dependencies
+
+---
+
+# Next Session (Day 34)
