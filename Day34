@@ -1,0 +1,419 @@
+# 📅 SQL & Database Placement Preparation
+
+## **Day 34 – Multivalued Dependency, 4NF & 5NF (18 April 2026)**
+
+Today we complete the **advanced normalization family** 🔥
+
+Good news:
+
+👉 In placements, interviewers rarely go very deep into 4NF and 5NF.
+
+👉 They mainly check whether you understand:
+
+* Why redundancy happens
+* How normalization removes it
+
+So we'll focus on understanding, not memorization.
+
+---
+
+# 🔥 Today's Concepts
+
+1️⃣ **Multivalued Dependency (MVD)**
+2️⃣ **4NF & 5NF**
+
+---
+
+# 1️⃣ Multivalued Dependency (MVD)
+
+## First Understand the Problem
+
+Suppose we have:
+
+| Student | Skill  | Hobby   |
+| ------- | ------ | ------- |
+| Akshay  | Python | Cricket |
+| Akshay  | Python | Music   |
+| Akshay  | SQL    | Cricket |
+| Akshay  | SQL    | Music   |
+
+---
+
+## What's Happening?
+
+Akshay has:
+
+Skills:
+
+```text id="s0v0a4"
+Python
+SQL
+```
+
+Hobbies:
+
+```text id="t0w3zb"
+Cricket
+Music
+```
+
+---
+
+Database creates every combination.
+
+Result:
+
+```text id="khgkvj"
+Python + Cricket
+Python + Music
+SQL + Cricket
+SQL + Music
+```
+
+Lots of repetition ❌
+
+---
+
+# Mental Model 🧠
+
+Student has:
+
+```text id="4wq1r3"
+Many Skills
+AND
+Many Hobbies
+```
+
+These are independent.
+
+But database mixes them together.
+
+---
+
+# What is MVD?
+
+When:
+
+```text id="69jmcy"
+One attribute determines
+multiple independent values
+```
+
+We write:
+
+```text id="7n6y7x"
+Student ↠ Skill
+```
+
+and
+
+```text id="2wq9qx"
+Student ↠ Hobby
+```
+
+Notice:
+
+```text id="s3npxk"
+↠
+```
+
+(Double arrow)
+
+Used for MVD.
+
+---
+
+# Solution
+
+Split tables.
+
+---
+
+## Student Skills
+
+| Student | Skill  |
+| ------- | ------ |
+| Akshay  | Python |
+| Akshay  | SQL    |
+
+---
+
+## Student Hobbies
+
+| Student | Hobby   |
+| ------- | ------- |
+| Akshay  | Cricket |
+| Akshay  | Music   |
+
+---
+
+Redundancy removed ✅
+
+---
+
+# Memory Trick 🧠
+
+```text id="9avmh2"
+MVD =
+One thing
+has multiple independent lists
+```
+
+---
+
+# 2️⃣ Fourth Normal Form (4NF)
+
+## Simple Rule
+
+A table is in 4NF if:
+
+```text id="f5sru0"
+No non-trivial
+multivalued dependencies
+```
+
+---
+
+Don't memorize.
+
+Remember:
+
+```text id="scbwrm"
+4NF removes MVD problems
+```
+
+---
+
+# Mental Model
+
+```text id="3m6u0w"
+3NF removes dependency problems
+
+4NF removes MVD problems
+```
+
+---
+
+# Example
+
+Bad:
+
+| Student | Skill | Hobby |
+| ------- | ----- | ----- |
+
+Good:
+
+Separate tables.
+
+Now table becomes 4NF.
+
+---
+
+# Memory Trick
+
+```text id="wy3hz7"
+4NF = No independent multi-lists
+```
+
+---
+
+# 3️⃣ Fifth Normal Form (5NF)
+
+Very advanced.
+
+Rarely used in placements.
+
+---
+
+## Why 5NF Exists?
+
+Sometimes even after 4NF:
+
+```text id="f3p14m"
+Data can still be reconstructed incorrectly
+```
+
+from multiple joins.
+
+5NF removes this issue.
+
+---
+
+# Simple Definition
+
+```text id="nyq8ae"
+5NF eliminates
+join dependency problems
+```
+
+---
+
+# Mental Model 🧠
+
+Imagine:
+
+You split data into many tables.
+
+Later:
+
+```text id="6dmg8l"
+Joining them creates
+incorrect combinations
+```
+
+5NF prevents that.
+
+---
+
+# Placement Advice 🎯
+
+For most interviews:
+
+Understanding:
+
+```text id="0p4w5n"
+1NF
+2NF
+3NF
+BCNF
+```
+
+is usually enough.
+
+Know:
+
+```text id="3g8dvc"
+4NF → MVD
+
+5NF → Join Dependency
+```
+
+and you're already ahead of most students.
+
+---
+
+# Easy Ladder of Normalization
+
+```text id="ibisr7"
+1NF
+↓
+Atomic values
+
+2NF
+↓
+No partial dependency
+
+3NF
+↓
+No transitive dependency
+
+BCNF
+↓
+Every determinant is candidate key
+
+4NF
+↓
+No multivalued dependency
+
+5NF
+↓
+No join dependency
+```
+
+---
+
+# Python Connection 🧠
+
+Bad structure:
+
+```python
+student = {
+    "skills": ["Python", "SQL"],
+    "hobbies": ["Cricket", "Music"]
+}
+```
+
+If stored incorrectly, database creates all combinations.
+
+4NF says:
+
+```text id="gm5s4q"
+Store skills separately
+
+Store hobbies separately
+```
+
+---
+
+# 🔥 Placement Insight
+
+### Q1: What is MVD?
+
+One attribute determines multiple independent values.
+
+Example:
+
+```text id="i3cxn6"
+Student ↠ Skill
+```
+
+---
+
+### Q2: Why 4NF?
+
+To remove multivalued dependency.
+
+---
+
+### Q3: Why 5NF?
+
+To remove join dependency problems.
+
+---
+
+### Q4: Is 5NF commonly used?
+
+👉 Rarely in practical applications.
+
+---
+
+# Quick Revision
+
+```text id="a5p18n"
+MVD:
+Student ↠ Skill
+
+4NF:
+No MVD
+
+5NF:
+No Join Dependency
+```
+
+---
+
+# What You Learned Today
+
+✔ Multivalued Dependency (MVD)
+✔ 4NF
+✔ 5NF
+✔ Why advanced normalization exists
+
+---
+
+# Current Progress
+
+```text id="d6c3w1"
+Day 34 Completed
+
+Roadmap Completion:
+~92%
+```
+
+You have now covered almost all major DBMS normalization concepts asked in placements.
+
+---
+
+# Next Session (Day 35)
+
+
