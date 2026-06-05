@@ -1,0 +1,451 @@
+# 📅 SQL & Database Placement Preparation
+
+## **Day 36 – Star Schema & Snowflake Schema (20 April 2026)**
+
+Today we continue **Data Warehousing** and learn two of the most common interview topics in analytics databases 🔥
+
+Many students memorize diagrams.
+Instead, we'll understand **why these schemas exist**.
+
+---
+
+# 🔥 Today's Concepts
+
+1️⃣ **Star Schema**
+2️⃣ **Snowflake Schema**
+
+---
+
+# First: Why Do We Need Special Schemas?
+
+In OLTP databases (banking, college systems), we normalize data.
+
+Example:
+
+```text
+Students
+Courses
+Departments
+Faculty
+```
+
+Many tables.
+
+This is good for transactions.
+
+---
+
+But in analytics, managers ask questions like:
+
+```text
+Total sales by city?
+
+Top products this year?
+
+Revenue by month?
+```
+
+We need queries to be:
+
+✔ Fast
+✔ Easy to understand
+
+This is where Star and Snowflake schemas help.
+
+---
+
+# 1️⃣ Star Schema
+
+## Big Idea
+
+A Star Schema has:
+
+```text
+One Fact Table
++
+Multiple Dimension Tables
+```
+
+---
+
+## Mental Model 🧠
+
+Think of the sun.
+
+```text
+          Product
+             |
+Customer -- Sales -- Time
+             |
+          Location
+```
+
+Looks like a star ⭐
+
+---
+
+# Fact Table
+
+The Fact Table stores:
+
+```text
+Measurements
+Numbers
+Business events
+```
+
+Example:
+
+### Sales Fact Table
+
+| Product_ID | Customer_ID | Time_ID | Amount |
+| ---------- | ----------- | ------- | ------ |
+| 101        | 1           | 500     | 2000   |
+
+---
+
+Contains:
+
+```text
+Sales Amount
+Quantity
+Revenue
+Profit
+```
+
+---
+
+# Dimension Tables
+
+Provide descriptive information.
+
+---
+
+### Product Dimension
+
+| Product_ID | Product_Name |
+| ---------- | ------------ |
+| 101        | Laptop       |
+
+---
+
+### Customer Dimension
+
+| Customer_ID | Customer_Name |
+| ----------- | ------------- |
+| 1           | Akshay        |
+
+---
+
+### Time Dimension
+
+| Time_ID | Month |
+| ------- | ----- |
+| 500     | April |
+
+---
+
+# Why Star Schema Is Fast
+
+Suppose manager asks:
+
+```text
+Total laptop sales in April?
+```
+
+Fact table contains numbers.
+
+Dimension tables provide details.
+
+Query becomes simple.
+
+---
+
+# Mental Model 🧠
+
+```text
+Fact = Numbers
+
+Dimension = Description
+```
+
+---
+
+# Memory Trick
+
+```text
+Star Schema
+
+One center table
+
+Many surrounding tables
+```
+
+---
+
+# Python Analogy 🧠
+
+Think:
+
+```python
+sales = [
+ {
+   "product":"Laptop",
+   "amount":2000
+ }
+]
+```
+
+Fact stores transaction.
+
+Dimensions store extra information.
+
+---
+
+# Advantages
+
+✔ Fast queries
+
+✔ Easy reporting
+
+✔ Easy understanding
+
+---
+
+# Disadvantage
+
+Some data redundancy exists.
+
+---
+
+# 2️⃣ Snowflake Schema
+
+Now let's improve Star Schema.
+
+---
+
+# Problem
+
+Dimension tables can become huge.
+
+Example:
+
+### Product Table
+
+| Product | Category    | Department |
+| ------- | ----------- | ---------- |
+| Laptop  | Electronics | Technology |
+
+Category repeats many times.
+
+---
+
+# Solution
+
+Normalize dimension tables.
+
+---
+
+# Product Dimension
+
+| Product_ID | Product_Name | Category_ID |
+| ---------- | ------------ | ----------- |
+
+---
+
+# Category Dimension
+
+| Category_ID | Category |
+| ----------- | -------- |
+
+---
+
+# Department Dimension
+
+| Department_ID | Department |
+| ------------- | ---------- |
+
+---
+
+Now schema looks like:
+
+```text
+          Category
+              |
+Product ---- Sales ---- Time
+              |
+          Customer
+```
+
+More branches.
+
+Looks like a snowflake ❄️
+
+---
+
+# Mental Model 🧠
+
+```text
+Star Schema
+=
+Simple
+
+Snowflake Schema
+=
+Normalized Star
+```
+
+---
+
+# Easy Comparison
+
+| Feature       | Star            | Snowflake       |
+| ------------- | --------------- | --------------- |
+| Structure     | Simple          | More tables     |
+| Normalization | Low             | High            |
+| Query Speed   | Faster          | Slightly slower |
+| Storage       | More redundancy | Less redundancy |
+| Complexity    | Easy            | Complex         |
+
+---
+
+# Real Interview Question
+
+### Which is Faster?
+
+👉 Star Schema
+
+Why?
+
+Because:
+
+```text
+Fewer joins
+```
+
+---
+
+### Which Uses Less Storage?
+
+👉 Snowflake Schema
+
+Why?
+
+Because:
+
+```text
+Less redundancy
+```
+
+---
+
+# How to Remember Forever 🧠
+
+Think:
+
+### Star
+
+```text
+Fast
+Simple
+More redundancy
+```
+
+---
+
+### Snowflake
+
+```text
+More organized
+Less redundancy
+More joins
+```
+
+---
+
+# Placement Insight 🔥
+
+### Q1: What is Fact Table?
+
+Stores measurable business data.
+
+Examples:
+
+```text
+Sales
+Profit
+Revenue
+Quantity
+```
+
+---
+
+### Q2: What is Dimension Table?
+
+Stores descriptive information.
+
+Examples:
+
+```text
+Product
+Customer
+Time
+Location
+```
+
+---
+
+### Q3: Difference between Star and Snowflake?
+
+Star:
+
+```text
+Less normalized
+Faster
+```
+
+Snowflake:
+
+```text
+More normalized
+Less redundancy
+```
+
+---
+
+# Quick Revision
+
+```text
+Fact Table
+=
+Numbers
+
+Dimension Table
+=
+Description
+
+Star
+=
+Simple
+
+Snowflake
+=
+Normalized Star
+```
+
+---
+
+# What You Learned Today
+
+✔ Fact Tables
+✔ Dimension Tables
+✔ Star Schema
+✔ Snowflake Schema
+✔ Differences and interview points
+
+---
+
+# Current Progress
+
+```text
+
