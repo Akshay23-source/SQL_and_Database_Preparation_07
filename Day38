@@ -1,0 +1,519 @@
+# 📅 SQL & Database Placement Preparation
+
+## **Day 38 – Views vs Materialized Views (22 April 2026)**
+
+Today we'll learn a concept that many students confuse in interviews. 🔥
+
+Interviewers often ask:
+
+> "What is a View?"
+>
+> "How is it different from a Materialized View?"
+
+If you understand the **real-world reason** behind them, you'll never forget.
+
+---
+
+# 🔥 Today's Concepts
+
+1️⃣ **Views**
+2️⃣ **Materialized Views**
+
+---
+
+# First: Why Do Views Exist?
+
+Imagine a company database:
+
+### Employees Table
+
+| id | name   | department  | salary |
+| -- | ------ | ----------- | ------ |
+| 1  | Akshay | Engineering | 50000  |
+| 2  | Rahul  | HR          | 40000  |
+
+---
+
+Now suppose HR wants:
+
+```text
+Name
+Department
+```
+
+but NOT salary.
+
+---
+
+Should we create a new table?
+
+❌ No
+
+That creates duplicate data.
+
+---
+
+# Solution → View
+
+A View is a **saved SQL query**.
+
+---
+
+# Mental Model 🧠
+
+```text
+View = Virtual Table
+```
+
+Important:
+
+```text
+Looks like a table
+
+But isn't actually storing data
+```
+
+---
+
+# Example
+
+```sql
+CREATE VIEW employee_public AS
+SELECT name, department
+FROM employees;
+```
+
+---
+
+Now:
+
+```sql
+SELECT * FROM employee_public;
+```
+
+Output:
+
+| name   | department  |
+| ------ | ----------- |
+| Akshay | Engineering |
+| Rahul  | HR          |
+
+---
+
+# What's Happening Internally?
+
+Database stores:
+
+```text
+The query
+```
+
+NOT:
+
+```text
+The result
+```
+
+---
+
+Every time you run:
+
+```sql
+SELECT * FROM employee_public;
+```
+
+Database executes:
+
+```sql
+SELECT name, department
+FROM employees;
+```
+
+again.
+
+---
+
+# Mental Model 🧠
+
+Think:
+
+```text
+View = Saved Recipe
+```
+
+Not the food.
+
+Every time:
+
+```text
+Recipe executed again
+```
+
+---
+
+# Why Views Are Useful
+
+---
+
+## 🔹 Security
+
+Hide sensitive columns.
+
+Example:
+
+Hide:
+
+```text
+Salary
+Password
+```
+
+---
+
+## 🔹 Simplicity
+
+Instead of writing:
+
+```sql
+Complex Join
++
+Filters
++
+Aggregations
+```
+
+again and again,
+
+save it as a View.
+
+---
+
+## 🔹 Reusability
+
+Write once.
+
+Use many times.
+
+---
+
+# Memory Trick
+
+```text
+View = Saved Query
+```
+
+---
+
+# Problem With Views
+
+Suppose query is huge:
+
+```text
+10 joins
+Millions of rows
+```
+
+Every request:
+
+```text
+Run entire query again
+```
+
+Slow ❌
+
+---
+
+# Solution → Materialized View
+
+---
+
+# What is a Materialized View?
+
+A Materialized View stores:
+
+```text
+Actual Query Result
+```
+
+---
+
+# Mental Model 🧠
+
+Normal View:
+
+```text
+Stores recipe
+```
+
+Materialized View:
+
+```text
+Stores cooked food
+```
+
+Already prepared.
+
+---
+
+# Example
+
+Suppose query:
+
+```sql
+SELECT
+department,
+SUM(salary)
+FROM employees
+GROUP BY department;
+```
+
+---
+
+Result:
+
+| Department  | Total Salary |
+| ----------- | ------------ |
+| Engineering | 500000       |
+| HR          | 300000       |
+
+---
+
+Materialized View stores:
+
+```text
+The result table itself
+```
+
+---
+
+When user asks again:
+
+```text
+No recalculation needed
+```
+
+Fast ✅
+
+---
+
+# Why Faster?
+
+Normal View:
+
+```text
+Run query every time
+```
+
+Materialized View:
+
+```text
+Read stored result
+```
+
+---
+
+# The Catch ⚠️
+
+What happens if data changes?
+
+---
+
+Employee salary updated:
+
+```text
+50000 → 60000
+```
+
+---
+
+Materialized View may still contain:
+
+```text
+50000
+```
+
+Old data.
+
+---
+
+Needs:
+
+```text
+REFRESH
+```
+
+---
+
+# Easy Memory Trick
+
+```text
+View
+=
+Always Fresh
+
+Materialized View
+=
+Fast but may become stale
+```
+
+---
+
+# Comparison Table
+
+| Feature          | View   | Materialized View |
+| ---------------- | ------ | ----------------- |
+| Stores Query     | ✅ Yes  | ✅ Yes             |
+| Stores Result    | ❌ No   | ✅ Yes             |
+| Always Fresh     | ✅ Yes  | ❌ Not always      |
+| Query Speed      | Slower | Faster            |
+| Storage Required | Small  | More              |
+
+---
+
+# Real-World Example
+
+Suppose CEO dashboard:
+
+```text
+Total sales
+Monthly revenue
+Top products
+```
+
+Calculating every second:
+
+❌ Expensive
+
+Use:
+
+```text
+Materialized View
+```
+
+Refresh periodically.
+
+---
+
+# Python Analogy 🧠
+
+### View
+
+```python
+def get_total():
+    return sum(data)
+```
+
+Computed every call.
+
+---
+
+### Materialized View
+
+```python
+cached_total = sum(data)
+```
+
+Reuse stored result.
+
+---
+
+# Interview Questions 🔥
+
+### Q1: What is a View?
+
+A virtual table created from a query.
+
+---
+
+### Q2: Does a View store data?
+
+❌ No
+
+Stores query only.
+
+---
+
+### Q3: What is a Materialized View?
+
+Stores query result physically.
+
+---
+
+### Q4: Which is faster?
+
+👉 Materialized View
+
+---
+
+### Q5: Which always shows latest data?
+
+👉 Normal View
+
+---
+
+# How to Remember Forever
+
+Think:
+
+### View
+
+```text
+Recipe
+```
+
+Every time cook again.
+
+---
+
+### Materialized View
+
+```text
+Cooked food
+```
+
+Already prepared.
+
+---
+
+# Quick Revision
+
+```text
+View
+=
+Virtual table
+
+Stores query
+
+Materialized View
+=
+Stores result
+
+Faster
+But needs refresh
+```
+
+---
+
+# What You Learned Today
+
+✔ What a View is
+✔ Why Views exist
+✔ What Materialized Views are
+✔ Differences between them
+✔ Real-world usage
+
+---
+
+# Current Progress
+
+```text
+Day 38 Completed
+
+Roadmap Completion:
+~97%
+```
+
+You are now very close to completing the full placement-focused SQL + DBMS roadmap.
+
+---
+
