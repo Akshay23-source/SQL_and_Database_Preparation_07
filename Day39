@@ -1,0 +1,491 @@
+# 📅 SQL & Database Placement Preparation
+
+## **Day 39 – SQL Interview Problem Solving (Part 1) (23 April 2026)**
+
+🔥 From today onwards, we start focusing on **actual placement interview questions**.
+
+Up to Day 38, you learned concepts.
+
+Now we learn:
+
+```text
+How interviewers think
+How to approach SQL problems
+How to avoid getting stuck
+```
+
+---
+
+# 🧠 Interview Mindset First
+
+Many students do this:
+
+```text
+Question
+↓
+Try to remember syntax
+↓
+Get confused
+```
+
+Wrong approach ❌
+
+---
+
+Instead:
+
+```text
+Question
+↓
+Understand data
+↓
+Understand desired output
+↓
+Choose SQL tool
+↓
+Write query
+```
+
+Always think like this.
+
+---
+
+# 🔥 Today's Concepts
+
+1️⃣ Problem-Solving Framework
+2️⃣ Top 5 Most Asked SQL Interview Questions
+
+---
+
+# Problem-Solving Framework
+
+Whenever you see a SQL question:
+
+Ask 3 questions.
+
+---
+
+## Question 1
+
+```text
+Am I filtering?
+```
+
+Keywords:
+
+* WHERE
+* LIKE
+* IN
+* BETWEEN
+
+---
+
+## Question 2
+
+```text
+Am I grouping?
+```
+
+Keywords:
+
+* COUNT
+* SUM
+* AVG
+* GROUP BY
+
+---
+
+## Question 3
+
+```text
+Am I comparing rows?
+```
+
+Keywords:
+
+* JOIN
+* Window Functions
+* Subqueries
+
+---
+
+This simple framework solves most SQL interview questions.
+
+---
+
+# Problem 1: Find Duplicate Emails
+
+### Table
+
+| email                             |
+| --------------------------------- |
+| [a@gmail.com](mailto:a@gmail.com) |
+| [b@gmail.com](mailto:b@gmail.com) |
+| [a@gmail.com](mailto:a@gmail.com) |
+
+---
+
+### Question
+
+Find duplicate emails.
+
+---
+
+## Thinking Process
+
+Need:
+
+```text
+Group rows
+Count occurrences
+```
+
+Tool:
+
+```text
+GROUP BY + HAVING
+```
+
+---
+
+## Query
+
+```sql
+SELECT email
+FROM users
+GROUP BY email
+HAVING COUNT(*) > 1;
+```
+
+---
+
+## How to Remember
+
+```text
+Duplicates
+=
+GROUP BY
++
+HAVING COUNT > 1
+```
+
+---
+
+# Problem 2: Find Second Highest Salary
+
+### Table
+
+| salary |
+| ------ |
+| 50000  |
+| 60000  |
+| 70000  |
+
+---
+
+## Thinking
+
+Highest salary:
+
+```text
+70000
+```
+
+Need next highest.
+
+---
+
+## Query
+
+```sql
+SELECT MAX(salary)
+FROM employees
+WHERE salary <
+(
+  SELECT MAX(salary)
+  FROM employees
+);
+```
+
+---
+
+## Mental Model
+
+```text
+Find highest
+
+Ignore it
+
+Find highest again
+```
+
+---
+
+# Problem 3: Employees Above Average Salary
+
+### Thinking
+
+Need:
+
+```text
+Employee salary
+
+Compared with
+
+Average salary
+```
+
+---
+
+## Query
+
+```sql
+SELECT *
+FROM employees
+WHERE salary >
+(
+ SELECT AVG(salary)
+ FROM employees
+);
+```
+
+---
+
+## Recognition Pattern
+
+Whenever question says:
+
+```text
+Above average
+Below average
+```
+
+Think:
+
+```text
+Aggregate + Subquery
+```
+
+---
+
+# Problem 4: Count Employees Per Department
+
+### Table
+
+| name | department |
+| ---- | ---------- |
+| A    | CSE        |
+| B    | CSE        |
+| C    | ECE        |
+
+---
+
+## Question
+
+Count employees in each department.
+
+---
+
+## Query
+
+```sql
+SELECT department,
+COUNT(*)
+FROM employees
+GROUP BY department;
+```
+
+---
+
+## Mental Model
+
+```text
+Per department
+
+= GROUP BY department
+```
+
+---
+
+# Problem 5: Students With No Course
+
+Tables:
+
+Students
+
+Courses
+
+---
+
+Need:
+
+```text
+Students without match
+```
+
+---
+
+## Query
+
+```sql
+SELECT s.*
+FROM students s
+LEFT JOIN enrollments e
+ON s.id = e.student_id
+WHERE e.student_id IS NULL;
+```
+
+---
+
+## Recognition Pattern
+
+Question says:
+
+```text
+Without
+No Match
+Not Assigned
+Missing
+```
+
+Immediately think:
+
+```text
+LEFT JOIN
++
+IS NULL
+```
+
+---
+
+# 🔥 Interview Shortcuts
+
+---
+
+## Duplicate Rows
+
+```sql
+GROUP BY
+HAVING COUNT(*) > 1
+```
+
+---
+
+## No Matching Record
+
+```sql
+LEFT JOIN
+IS NULL
+```
+
+---
+
+## Above Average
+
+```sql
+Subquery
+AVG()
+```
+
+---
+
+## Per Category Statistics
+
+```sql
+GROUP BY
+```
+
+---
+
+## Ranking Problems
+
+```sql
+ROW_NUMBER()
+RANK()
+DENSE_RANK()
+```
+
+---
+
+# Python Connection 🧠
+
+Think:
+
+Duplicate emails:
+
+```python
+from collections import Counter
+
+cnt = Counter(emails)
+
+for email, c in cnt.items():
+    if c > 1:
+        print(email)
+```
+
+SQL is just another way to express the same logic.
+
+---
+
+# Placement Insight 🔥
+
+### Q1: Most important SQL topic?
+
+👉 Joins + Group By
+
+---
+
+### Q2: Most asked SQL interview question?
+
+👉 Second highest salary
+
+---
+
+### Q3: Most important problem-solving skill?
+
+👉 Recognize patterns.
+
+Don't memorize queries.
+
+---
+
+# Quick Revision
+
+```text
+Duplicates
+→ GROUP BY HAVING
+
+No Match
+→ LEFT JOIN + NULL
+
+Above Average
+→ Subquery + AVG
+
+Per Group Count
+→ GROUP BY
+```
+
+---
+
+# What You Learned Today
+
+✔ SQL problem-solving framework
+✔ Duplicate detection
+✔ Second highest salary
+✔ Above-average queries
+✔ Missing-record queries
+
+---
+
+# Current Progress
+
+```text
+Day 39 Completed
+
+Roadmap Completion:
+~98%
+```
+
+You now know almost all theory and are entering interview-focused practice mode.
+
+
