@@ -1,0 +1,510 @@
+# 📅 SQL & Database Placement Preparation
+
+## **Day 40 – SQL Interview Problem Solving (Part 2) (24 April 2026)**
+
+🔥 Today we're focusing on the kinds of questions that appear in placement interviews at companies like Tata Consultancy Services, Infosys, Accenture, and even product companies.
+
+Today's goal is not just to solve questions.
+
+It's to learn:
+
+```text
+How to identify the pattern behind the question.
+```
+
+Once you recognize the pattern, the SQL becomes easy.
+
+---
+
+# 🧠 Interview Strategy
+
+Before writing SQL, ask:
+
+### What is the interviewer testing?
+
+Usually one of these:
+
+```text
+Filtering
+Grouping
+Joining
+Ranking
+Subqueries
+Window Functions
+```
+
+---
+
+# 🔥 Today's Questions
+
+1️⃣ Nth Highest Salary
+2️⃣ Top N Employees Per Department
+3️⃣ Find Customers Who Never Ordered
+4️⃣ Find Consecutive Login Days
+5️⃣ Highest Salary in Each Department
+
+---
+
+# Question 1: Nth Highest Salary
+
+---
+
+## Problem
+
+Find the 3rd highest salary.
+
+Table:
+
+| salary |
+| ------ |
+| 90000  |
+| 80000  |
+| 70000  |
+| 60000  |
+
+---
+
+## Beginner Solution
+
+Sort salaries.
+
+Take third one.
+
+---
+
+## SQL Solution
+
+```sql
+SELECT salary
+FROM
+(
+    SELECT salary,
+           DENSE_RANK() OVER(ORDER BY salary DESC) rnk
+    FROM employees
+) t
+WHERE rnk = 3;
+```
+
+---
+
+## Why DENSE_RANK?
+
+Suppose:
+
+| salary |
+| ------ |
+| 90000  |
+| 90000  |
+| 80000  |
+
+Ranks become:
+
+| salary | rank |
+| ------ | ---- |
+| 90000  | 1    |
+| 90000  | 1    |
+| 80000  | 2    |
+
+Correct.
+
+---
+
+## Recognition Pattern
+
+Question contains:
+
+```text
+Nth Highest
+Top 3
+Top 5
+Ranking
+```
+
+Think:
+
+```text
+ROW_NUMBER
+RANK
+DENSE_RANK
+```
+
+---
+
+# Question 2: Top 2 Employees Per Department
+
+---
+
+## Table
+
+| name | dept | salary |
+| ---- | ---- | ------ |
+| A    | CSE  | 100    |
+| B    | CSE  | 90     |
+| C    | ECE  | 80     |
+
+---
+
+## SQL
+
+```sql
+SELECT *
+FROM
+(
+    SELECT *,
+           ROW_NUMBER() OVER
+           (
+              PARTITION BY dept
+              ORDER BY salary DESC
+           ) rn
+    FROM employees
+) t
+WHERE rn <= 2;
+```
+
+---
+
+## Mental Model
+
+```text
+Partition by department
+
+Rank inside department
+
+Take top 2
+```
+
+---
+
+## Recognition Pattern
+
+Question says:
+
+```text
+Top N per group
+```
+
+Immediately think:
+
+```text
+PARTITION BY
++
+ROW_NUMBER
+```
+
+---
+
+# Question 3: Customers Who Never Ordered
+
+---
+
+Tables:
+
+Customers
+
+Orders
+
+---
+
+Need:
+
+```text
+Customers with NO matching order
+```
+
+---
+
+## SQL
+
+```sql
+SELECT c.*
+FROM customers c
+LEFT JOIN orders o
+ON c.id = o.customer_id
+WHERE o.customer_id IS NULL;
+```
+
+---
+
+## Mental Shortcut
+
+Question says:
+
+```text
+Never
+Missing
+No orders
+Not assigned
+No records
+```
+
+Think:
+
+```text
+LEFT JOIN
++
+IS NULL
+```
+
+---
+
+# Question 4: Consecutive Login Days
+
+This is common in product companies.
+
+---
+
+## Example
+
+| user | day |
+| ---- | --- |
+| A    | 1   |
+| A    | 2   |
+| A    | 3   |
+
+---
+
+Need:
+
+```text
+Users who logged in consecutive days
+```
+
+---
+
+## Idea
+
+Use:
+
+```sql
+LAG()
+```
+
+to compare current row with previous row.
+
+---
+
+### Simplified Query
+
+```sql
+SELECT user_id,
+       login_date,
+       LAG(login_date)
+       OVER(
+          PARTITION BY user_id
+          ORDER BY login_date
+       ) prev_date
+FROM logins;
+```
+
+---
+
+Then compare:
+
+```text
+Current date - Previous date = 1 day
+```
+
+---
+
+## Recognition Pattern
+
+Question says:
+
+```text
+Previous row
+Next row
+Consecutive
+Trend
+```
+
+Think:
+
+```text
+LAG
+LEAD
+```
+
+---
+
+# Question 5: Highest Salary in Each Department
+
+---
+
+## SQL
+
+```sql
+SELECT dept,
+       MAX(salary)
+FROM employees
+GROUP BY dept;
+```
+
+---
+
+## Mental Model
+
+Question says:
+
+```text
+Per Department
+Per Branch
+Per Category
+Per Team
+```
+
+Think:
+
+```text
+GROUP BY
+```
+
+---
+
+# 🧠 SQL Pattern Cheat Sheet
+
+---
+
+## Duplicate Records
+
+```sql
+GROUP BY
+HAVING COUNT(*) > 1
+```
+
+---
+
+## Missing Records
+
+```sql
+LEFT JOIN
+IS NULL
+```
+
+---
+
+## Ranking
+
+```sql
+ROW_NUMBER
+RANK
+DENSE_RANK
+```
+
+---
+
+## Top N Per Group
+
+```sql
+PARTITION BY
+ROW_NUMBER
+```
+
+---
+
+## Previous / Next Row
+
+```sql
+LAG
+LEAD
+```
+
+---
+
+## Per Category Statistics
+
+```sql
+GROUP BY
+```
+
+---
+
+# Python Connection 🧠
+
+Top 2 per department:
+
+```python
+employees.sort(
+    key=lambda x:
+    (x["dept"], -x["salary"])
+)
+```
+
+Then take first two of each department.
+
+SQL window functions automate this.
+
+---
+
+# 🔥 Placement Insight
+
+### Q1: Most important SQL interview topic?
+
+👉 Joins + Window Functions
+
+---
+
+### Q2: Which function is used for Top N per group?
+
+👉 ROW_NUMBER() with PARTITION BY
+
+---
+
+### Q3: Which function helps compare previous row?
+
+👉 LAG()
+
+---
+
+### Q4: Which function helps compare next row?
+
+👉 LEAD()
+
+---
+
+# Quick Revision
+
+```text
+Nth Highest
+→ DENSE_RANK
+
+Top N Per Group
+→ PARTITION BY + ROW_NUMBER
+
+No Match
+→ LEFT JOIN + NULL
+
+Previous Row
+→ LAG
+
+Per Category Stats
+→ GROUP BY
+```
+
+---
+
+# What You Learned Today
+
+✔ Nth Highest Salary
+✔ Top N Per Department
+✔ Missing Records Pattern
+✔ Consecutive Rows Pattern
+✔ SQL Pattern Recognition
+
+---
+
+# Current Progress
+
+```text
+Day 40 Completed
+
+Roadmap Completion:
+~99%
+```
+
+You now know almost every major SQL + DBMS topic required for placements.
+
+---
+
+# Next Session (Day 41 – Final Core SQL Round)
+
+
