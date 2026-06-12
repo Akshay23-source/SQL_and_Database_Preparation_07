@@ -1,0 +1,479 @@
+# 📅 SQL & Database Placement Preparation
+
+## **Day 41 – SQL Mock Interview & Complete Revision Framework (25 April 2026)**
+
+🎉 Congratulations!
+
+You have reached the final core SQL + DBMS placement round.
+
+Today we'll simulate what actually happens in placement interviews.
+
+The goal is not to memorize answers.
+
+The goal is:
+
+```text
+Understand → Recall → Explain Confidently
+```
+
+---
+
+# 🧠 Interview Secret
+
+Interviewers rarely ask:
+
+```text
+"Write definition of SQL"
+```
+
+Instead they ask:
+
+```text
+"Why would you use an index?"
+"What happens if you remove normalization?"
+"How would you find duplicate rows?"
+```
+
+They test understanding.
+
+---
+
+# 🔥 Part 1: Top 20 SQL & DBMS Interview Questions
+
+---
+
+## Q1. Difference between DBMS and RDBMS?
+
+### Think First
+
+DBMS:
+
+```text
+Stores data
+```
+
+RDBMS:
+
+```text
+Stores related data using tables
+```
+
+### Answer
+
+DBMS may not support relationships.
+
+RDBMS stores data in tables and supports relationships using keys.
+
+Example:
+
+* DBMS → File-based systems
+* RDBMS → MySQL, PostgreSQL
+
+---
+
+## Q2. What is a Primary Key?
+
+### Mental Model
+
+```text
+Primary Key = Aadhaar Number
+```
+
+Unique for each person.
+
+### Answer
+
+A Primary Key uniquely identifies each row and cannot be NULL.
+
+---
+
+## Q3. What is a Foreign Key?
+
+### Mental Model
+
+```text
+Foreign Key = Connection wire
+```
+
+### Answer
+
+A Foreign Key links one table to another.
+
+---
+
+## Q4. Difference Between WHERE and HAVING?
+
+### Trick
+
+```text
+WHERE → before grouping
+
+HAVING → after grouping
+```
+
+---
+
+Example:
+
+```sql
+WHERE salary > 50000
+```
+
+filters rows.
+
+```sql
+HAVING COUNT(*) > 5
+```
+
+filters groups.
+
+---
+
+## Q5. Difference Between DELETE, TRUNCATE and DROP?
+
+### Easy Memory
+
+```text
+DELETE → Remove rows
+
+TRUNCATE → Empty table
+
+DROP → Remove table
+```
+
+---
+
+## Q6. What is Normalization?
+
+### Answer
+
+Process of reducing redundancy and improving consistency.
+
+---
+
+## Q7. Explain 1NF, 2NF, 3NF
+
+### Shortcut
+
+```text
+1NF → Atomic values
+
+2NF → No partial dependency
+
+3NF → No transitive dependency
+```
+
+---
+
+## Q8. What is BCNF?
+
+Stricter version of 3NF.
+
+Every determinant must be a candidate key.
+
+---
+
+## Q9. What is an Index?
+
+### Mental Model
+
+```text
+Index = Book index page
+```
+
+Helps find data faster.
+
+---
+
+## Q10. Why not create indexes everywhere?
+
+Because:
+
+```text
+Reads become faster
+
+Writes become slower
+```
+
+Database must maintain indexes.
+
+---
+
+## Q11. What are ACID Properties?
+
+### Memory Trick
+
+```text
+A → Atomicity
+
+C → Consistency
+
+I → Isolation
+
+D → Durability
+```
+
+---
+
+## Q12. What is a Transaction?
+
+Group of operations executed as one unit.
+
+Either all succeed or all fail.
+
+---
+
+## Q13. What is a Deadlock?
+
+### Mental Model
+
+Two people blocking each other in a doorway.
+
+### Answer
+
+Transactions wait for each other forever.
+
+---
+
+## Q14. Difference Between INNER and LEFT JOIN?
+
+### INNER JOIN
+
+Only matching rows.
+
+### LEFT JOIN
+
+All rows from left table.
+
+---
+
+## Q15. What is a View?
+
+Saved query acting like a virtual table.
+
+---
+
+## Q16. Difference Between View and Materialized View?
+
+View:
+
+```text
+Stores query
+```
+
+Materialized View:
+
+```text
+Stores result
+```
+
+---
+
+## Q17. Difference Between SQL and NoSQL?
+
+SQL:
+
+```text
+Structured
+Table-based
+```
+
+NoSQL:
+
+```text
+Flexible
+Document-based
+```
+
+Example:
+
+MongoDB
+
+---
+
+## Q18. What is Sharding?
+
+Splitting data across multiple servers.
+
+---
+
+## Q19. What is Replication?
+
+Copying same data to multiple servers.
+
+---
+
+## Q20. Explain CAP Theorem
+
+Choose only two:
+
+```text
+Consistency
+
+Availability
+
+Partition Tolerance
+```
+
+during network partitions.
+
+---
+
+# 🔥 Part 2: SQL Problem Pattern Map
+
+When you see a question, immediately map it.
+
+---
+
+### Duplicate Records
+
+```text
+GROUP BY
+HAVING COUNT(*) > 1
+```
+
+---
+
+### Missing Records
+
+```text
+LEFT JOIN
+IS NULL
+```
+
+---
+
+### Top N Per Group
+
+```text
+PARTITION BY
+ROW_NUMBER()
+```
+
+---
+
+### Nth Highest Salary
+
+```text
+DENSE_RANK()
+```
+
+---
+
+### Previous Row Comparison
+
+```text
+LAG()
+```
+
+---
+
+### Next Row Comparison
+
+```text
+LEAD()
+```
+
+---
+
+### Per Department Statistics
+
+```text
+GROUP BY
+```
+
+---
+
+### Above Average
+
+```text
+AVG()
++
+Subquery
+```
+
+---
+
+# 🔥 Part 3: The 10 Concepts Interviewers Love Most
+
+If you remember only these, you're already strong:
+
+```text
+1. Joins
+
+2. Group By
+
+3. Aggregate Functions
+
+4. Primary & Foreign Keys
+
+5. Normalization
+
+6. Indexes
+
+7. Transactions & ACID
+
+8. Subqueries
+
+9. Window Functions
+
+10. SQL Optimization
+```
+
+---
+
+# 🧠 The Ultimate SQL Mental Model
+
+Think of SQL as answering questions:
+
+```text
+WHERE
+→ Which rows?
+
+GROUP BY
+→ Which groups?
+
+JOIN
+→ Which tables?
+
+ORDER BY
+→ Which order?
+
+LIMIT
+→ How many rows?
+
+WINDOW FUNCTIONS
+→ Compare rows
+```
+
+If you understand those six ideas, most SQL becomes easy.
+
+---
+
+# 📊 Roadmap Status
+
+```text
+Day 41 Completed
+
+Core SQL + DBMS Roadmap:
+100% Completed ✅
+```
+
+You now understand:
+
+✅ SQL Fundamentals
+✅ DBMS Theory
+✅ Joins
+✅ Transactions
+✅ Normalization
+✅ Indexes
+✅ Optimization
+✅ Security
+✅ Recovery
+✅ Data Warehousing
+✅ Distributed Databases
+✅ NoSQL Basics
+✅ Window Functions
+✅ Interview Problems
+
+
