@@ -1,0 +1,523 @@
+# 📅 SQL Placement Mastery Program
+
+## **Day 42 – SQL Interview Challenge Round 1 (26 April 2026)**
+
+🎯 Core SQL & DBMS are complete.
+
+Now we enter the phase that actually gets you through placement interviews:
+
+```text
+Concept → Pattern Recognition → Problem Solving
+```
+
+From now on, you'll think like an interviewer and a database engineer.
+
+---
+
+# 🔥 Today's Topics
+
+1️⃣ How to approach SQL interview questions
+2️⃣ 5 real placement-style SQL challenges
+
+---
+
+# 🧠 Interview Rule #1
+
+Before writing SQL, ask:
+
+```text
+What am I trying to find?
+```
+
+Most SQL questions fall into one of these buckets:
+
+| Goal              | SQL Tool          |
+| ----------------- | ----------------- |
+| Filter rows       | WHERE             |
+| Group data        | GROUP BY          |
+| Connect tables    | JOIN              |
+| Compare rows      | Window Functions  |
+| Find rankings     | ROW_NUMBER / RANK |
+| Find missing data | LEFT JOIN + NULL  |
+
+---
+
+# Challenge 1: Find the Highest Salary Employee
+
+### Table
+
+| id | name   | salary |
+| -- | ------ | ------ |
+| 1  | Akshay | 50000  |
+| 2  | Rahul  | 80000  |
+| 3  | Neha   | 70000  |
+
+---
+
+## First Thinking
+
+Question asks:
+
+```text
+Highest salary
+```
+
+Not employee count.
+
+Not grouping.
+
+Need:
+
+```text
+Maximum value
+```
+
+---
+
+## Query
+
+```sql
+SELECT *
+FROM employees
+WHERE salary =
+(
+   SELECT MAX(salary)
+   FROM employees
+);
+```
+
+---
+
+## Why It Works
+
+Step 1:
+
+```sql
+SELECT MAX(salary)
+```
+
+returns:
+
+```text
+80000
+```
+
+Step 2:
+
+Find employee having 80000.
+
+---
+
+## Pattern
+
+```text
+Highest
+Lowest
+Maximum
+Minimum
+```
+
+Think:
+
+```text
+MAX()
+MIN()
+```
+
+---
+
+# Challenge 2: Find Departments Having More Than 5 Employees
+
+---
+
+## Thinking
+
+Question contains:
+
+```text
+Per Department
+```
+
+Immediately:
+
+```text
+GROUP BY
+```
+
+---
+
+## Query
+
+```sql
+SELECT department
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 5;
+```
+
+---
+
+## Why HAVING?
+
+Remember:
+
+```text
+WHERE → rows
+
+HAVING → groups
+```
+
+---
+
+# Challenge 3: Find Employees Who Earn More Than Their Manager
+
+---
+
+## Tables
+
+| emp_id | name | manager_id | salary |
+| ------ | ---- | ---------- | ------ |
+
+---
+
+## Thinking
+
+Need:
+
+```text
+Employee
+vs
+Manager
+```
+
+Same table.
+
+---
+
+## Pattern
+
+```text
+Same table comparison
+```
+
+Think:
+
+```text
+SELF JOIN
+```
+
+---
+
+## Query
+
+```sql
+SELECT e.name
+FROM employees e
+JOIN employees m
+ON e.manager_id = m.emp_id
+WHERE e.salary > m.salary;
+```
+
+---
+
+## Why It Works
+
+Employee table acts twice:
+
+```text
+e → employee
+
+m → manager
+```
+
+---
+
+# Challenge 4: Find Customers With No Orders
+
+---
+
+## Thinking
+
+Question contains:
+
+```text
+No Orders
+```
+
+Huge clue.
+
+---
+
+## Pattern
+
+```text
+Missing Match
+```
+
+Use:
+
+```text
+LEFT JOIN + NULL
+```
+
+---
+
+## Query
+
+```sql
+SELECT c.*
+FROM customers c
+LEFT JOIN orders o
+ON c.id = o.customer_id
+WHERE o.customer_id IS NULL;
+```
+
+---
+
+## Why It Works
+
+LEFT JOIN keeps all customers.
+
+Customers without orders get:
+
+```text
+NULL
+```
+
+Filter those rows.
+
+---
+
+# Challenge 5: Find Top 3 Salaries
+
+---
+
+## Thinking
+
+Question contains:
+
+```text
+Top 3
+Ranking
+```
+
+Think:
+
+```text
+DENSE_RANK
+```
+
+---
+
+## Query
+
+```sql
+SELECT salary
+FROM
+(
+   SELECT salary,
+          DENSE_RANK()
+          OVER(ORDER BY salary DESC) rnk
+   FROM employees
+) t
+WHERE rnk <= 3;
+```
+
+---
+
+## Why DENSE_RANK?
+
+Handles duplicate salaries properly.
+
+Example:
+
+| Salary |
+| ------ |
+| 100    |
+| 100    |
+| 90     |
+
+Ranks:
+
+```text
+100 → 1
+
+100 → 1
+
+90 → 2
+```
+
+---
+
+# 🔥 Pattern Recognition Sheet
+
+When you hear:
+
+### "Highest"
+
+```text
+MAX()
+```
+
+---
+
+### "Average"
+
+```text
+AVG()
+```
+
+---
+
+### "Per Department"
+
+```text
+GROUP BY
+```
+
+---
+
+### "No Match"
+
+```text
+LEFT JOIN + NULL
+```
+
+---
+
+### "Top N"
+
+```text
+ROW_NUMBER()
+RANK()
+DENSE_RANK()
+```
+
+---
+
+### "Same Table"
+
+```text
+SELF JOIN
+```
+
+---
+
+# Python Connection 🧠
+
+Highest salary:
+
+```python
+max_salary = max(
+    emp["salary"]
+    for emp in employees
+)
+```
+
+SQL:
+
+```sql
+MAX(salary)
+```
+
+Same idea.
+
+---
+
+# 🔥 Mock Interview Questions
+
+Try answering mentally:
+
+### Q1
+
+Find average salary per department.
+
+Tool?
+
+✅ GROUP BY + AVG
+
+---
+
+### Q2
+
+Find employees without managers.
+
+Tool?
+
+✅ WHERE manager_id IS NULL
+
+---
+
+### Q3
+
+Find second highest salary.
+
+Tool?
+
+✅ MAX + Subquery OR DENSE_RANK
+
+---
+
+### Q4
+
+Find duplicate emails.
+
+Tool?
+
+✅ GROUP BY + HAVING
+
+---
+
+### Q5
+
+Find top 2 employees in each department.
+
+Tool?
+
+✅ PARTITION BY + ROW_NUMBER
+
+---
+
+# Quick Revision
+
+```text
+Highest → MAX
+
+Average → AVG
+
+Per Group → GROUP BY
+
+Missing Match → LEFT JOIN + NULL
+
+Ranking → ROW_NUMBER / RANK
+
+Same Table → SELF JOIN
+```
+
+---
+
+# What You Learned Today
+
+✔ SQL interview thinking process
+✔ Highest salary pattern
+✔ Missing records pattern
+✔ Self join pattern
+✔ Ranking pattern
+✔ Grouping pattern
+
+---
+
+# Placement Readiness Status
+
+```text
+SQL Fundamentals      ✅
+DBMS Theory           ✅
+Joins                 ✅
+Normalization         ✅
+Transactions          ✅
+Indexes               ✅
+Window Functions      ✅
+Interview Questions   🟢 Strong
+```
+
+
