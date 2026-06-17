@@ -1,0 +1,385 @@
+# 📅 SQL Placement Mastery Program
+
+## **Day 43 – SQL Interview Challenge Round 2 (27 April 2026)**
+
+Today we'll solve **real interview-style SQL problems**.
+
+🎯 **Important:** Don't look at the SQL first. Read the question, think for 30–60 seconds, and try to identify the pattern. This is exactly how interviewers expect you to approach SQL.
+
+---
+
+# 🧠 The 4-Step SQL Thinking Process
+
+Whenever you get a SQL question, ask yourself:
+
+```text
+1. What is the output?
+2. Do I need one table or multiple tables?
+3. Do I need filtering, grouping, or ranking?
+4. Which SQL feature fits best?
+```
+
+> **Don't memorize queries. Memorize the thinking process.**
+
+---
+
+# 🔥 Challenge 1: Find the 2nd Highest Salary in Each Department
+
+### Table
+
+| Employee | Department | Salary |
+| -------- | ---------- | ------ |
+| Akshay   | CSE        | 90000  |
+| Rahul    | CSE        | 85000  |
+| Neha     | ECE        | 80000  |
+| Priya    | ECE        | 75000  |
+
+---
+
+## Step 1: Think
+
+The question says:
+
+* **"In each department"** → `PARTITION BY`
+* **"2nd highest"** → `DENSE_RANK()`
+
+---
+
+## SQL
+
+```sql
+SELECT department, employee, salary
+FROM (
+    SELECT *,
+           DENSE_RANK() OVER (
+               PARTITION BY department
+               ORDER BY salary DESC
+           ) AS rnk
+    FROM employees
+) t
+WHERE rnk = 2;
+```
+
+---
+
+## 🧠 Mental Shortcut
+
+```text
+Per Group
++
+Ranking
+
+↓
+
+PARTITION BY
++
+DENSE_RANK()
+```
+
+---
+
+# 🔥 Challenge 2: Find the Total Salary of Each Department
+
+---
+
+## Think
+
+Question says:
+
+```text
+Total
+Per Department
+```
+
+Immediately think:
+
+```text
+SUM()
++
+GROUP BY
+```
+
+---
+
+## SQL
+
+```sql
+SELECT department,
+       SUM(salary) AS total_salary
+FROM employees
+GROUP BY department;
+```
+
+---
+
+## Why It Works
+
+* `GROUP BY` creates one group for each department.
+* `SUM()` adds salaries within each group.
+
+---
+
+# 🔥 Challenge 3: Find Employees Whose Name Starts with "A"
+
+---
+
+## Think
+
+This is a filtering question.
+
+Need pattern matching.
+
+---
+
+## SQL
+
+```sql
+SELECT *
+FROM employees
+WHERE name LIKE 'A%';
+```
+
+---
+
+## Memory Trick
+
+```text
+A% → Starts with A
+
+%A → Ends with A
+
+%A% → Contains A
+
+_ → Exactly one character
+```
+
+Example:
+
+```text
+A_
+```
+
+Matches:
+
+```
+An
+Al
+```
+
+---
+
+# 🔥 Challenge 4: Find the Department with the Highest Average Salary
+
+---
+
+## Think
+
+Question says:
+
+* Average
+* Per Department
+* Highest
+
+This combines:
+
+* `GROUP BY`
+* `AVG()`
+* `ORDER BY`
+
+---
+
+## SQL
+
+```sql
+SELECT department,
+       AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department
+ORDER BY avg_salary DESC
+LIMIT 1;
+```
+
+---
+
+## Mental Model
+
+```text
+Group
+↓
+
+Average
+
+↓
+
+Sort
+
+↓
+
+Take Top
+```
+
+---
+
+# 🔥 Challenge 5: Find Employees Joined in the Last 30 Days
+
+Table:
+
+| Name | Join_Date |
+
+---
+
+## Think
+
+Need date filtering.
+
+---
+
+## SQL (MySQL)
+
+```sql
+SELECT *
+FROM employees
+WHERE join_date >= CURDATE() - INTERVAL 30 DAY;
+```
+
+---
+
+## Why?
+
+Compare today's date with the join date.
+
+---
+
+# 🧠 Interview Pattern Cheat Sheet
+
+| If Question Says... | Think...                |
+| ------------------- | ----------------------- |
+| Highest / Lowest    | MAX / MIN               |
+| Average             | AVG                     |
+| Total               | SUM                     |
+| Count               | COUNT                   |
+| Per Department      | GROUP BY                |
+| Top N               | ROW_NUMBER / DENSE_RANK |
+| Starts With         | LIKE 'A%'               |
+| Missing Records     | LEFT JOIN + IS NULL     |
+| Previous Row        | LAG()                   |
+| Next Row            | LEAD()                  |
+| Latest Records      | ORDER BY Date DESC      |
+
+---
+
+# 🐍 Python Connection
+
+Find total salary per department:
+
+```python
+totals = {}
+
+for emp in employees:
+    dept = emp["department"]
+    totals[dept] = totals.get(dept, 0) + emp["salary"]
+
+print(totals)
+```
+
+SQL:
+
+```sql
+GROUP BY department
+SUM(salary)
+```
+
+SQL automatically performs the grouping and aggregation.
+
+---
+
+# 🎯 Mini Quiz (Try Without Looking)
+
+### 1. Find the number of employees in each department.
+
+👉 Which SQL function?
+
+✅ **Answer:** `COUNT(*) + GROUP BY`
+
+---
+
+### 2. Find names ending with "n".
+
+👉 Pattern?
+
+✅ **Answer:** `LIKE '%n'`
+
+---
+
+### 3. Find the maximum salary.
+
+👉 Function?
+
+✅ **Answer:** `MAX()`
+
+---
+
+### 4. Find departments with more than 10 employees.
+
+👉 Clause?
+
+✅ **Answer:** `HAVING COUNT(*) > 10`
+
+---
+
+### 5. Find top 3 salaries.
+
+👉 Function?
+
+✅ **Answer:** `DENSE_RANK()` or `ORDER BY salary DESC LIMIT 3` (depending on whether duplicate handling matters)
+
+---
+
+# 📌 Today's Memory Map
+
+```text
+Highest → MAX
+
+Average → AVG
+
+Total → SUM
+
+Count → COUNT
+
+Per Group → GROUP BY
+
+Top N → DENSE_RANK
+
+Pattern Match → LIKE
+
+Date Filter → WHERE + Date Functions
+```
+
+---
+
+# ✅ What You Learned Today
+
+* How to solve multi-step SQL interview questions
+* Ranking within groups
+* Aggregate interview patterns
+* Pattern matching with `LIKE`
+* Date filtering
+* How to recognize SQL problem types
+
+---
+
+# 📈 Progress
+
+```text
+SQL Placement Mastery
+Day 43 ✅
+
+Overall Roadmap:
+≈ 99.5% Complete
+```
+
+You now have the knowledge required for most **service-based company interviews** and a strong foundation for **product-company SQL rounds**.
+
+---
+
+
